@@ -2,6 +2,7 @@ package com.xiaodong.blog.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by xiaodong on 2015/11/13.
@@ -17,6 +18,7 @@ public class RootController {
 
     @RequestMapping("about")
     public String about(){
+        System.out.println("about");
         return "about";
     }
 
