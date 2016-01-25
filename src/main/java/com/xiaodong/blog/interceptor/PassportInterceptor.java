@@ -1,5 +1,6 @@
 package com.xiaodong.blog.interceptor;
 
+import com.xiaodong.blog.model.User;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class PassportInterceptor implements HandlerInterceptor {
 
     private static final Logger LOG = LoggerFactory.getLogger(PassportInterceptor.class);
 
-    private List<String> loginUrl = Arrays.asList(new String[]{"index.do","home.do","userInfo.do"});
+    private List<String> loginUrl = Arrays.asList(new String[]{"index.do","main.do","userInfo.do"});
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -26,8 +27,8 @@ public class PassportInterceptor implements HandlerInterceptor {
         String uri = requestUri.substring(requestUri.lastIndexOf("/")+1,requestUri.length());
         LOG.info("ip={},requestUri={}",request.getRemoteAddr(),requestUri);
         if (this.loginUrl.contains(uri)){
-            String email = (String) request.getSession().getAttribute("email");
-            if (StringUtils.isBlank(email)){
+            User user = (User) request.getSession().getAttribute("user");
+            if (user == null){
                 response.sendRedirect(request.getContextPath()+"/goSignIn.do");
             }
         }

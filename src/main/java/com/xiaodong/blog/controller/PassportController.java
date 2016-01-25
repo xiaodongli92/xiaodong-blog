@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by xiaodong on 2015/11/13.
@@ -44,14 +43,15 @@ public class PassportController {
 
     @ResponseBody
     @RequestMapping("signIn")
-    public String signIn(User user,HttpServletRequest request,HttpServletResponse response){
+    public String signIn(User user,HttpServletRequest request){
         try {
             LOG.info("{}",user);
             String errMsg = passportService.signIn(user);
             if (errMsg!=null){
                 return JsonResponseUtils.badResult(errMsg);
             }
-            request.getSession().setAttribute(AppConstants.SESSION_EMAIL,user.getEmail());
+            User userSession = passportService.getUserByEmail(user.getEmail());
+            request.getSession().setAttribute(AppConstants.SESSION_USER,userSession);
             return JsonResponseUtils.ok();
         } catch (Exception e){
             LOG.error("error:",e);
@@ -62,7 +62,7 @@ public class PassportController {
     @RequestMapping("signOut")
     public String signOut(HttpServletRequest request) {
         try {
-            request.getSession().removeAttribute(AppConstants.SESSION_EMAIL);
+            request.getSession().removeAttribute(AppConstants.SESSION_USER);
         } catch (Exception e) {
             LOG.error("sign out error",e);
         }

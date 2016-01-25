@@ -11,25 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("")
 public class RootController {
 
-    @RequestMapping("index")
-    public String index(){
-        return "index";
-    }
-
-    @RequestMapping("about")
-    public String about(){
-        System.out.println("about");
-        return "about";
-    }
-
-    @RequestMapping("contact")
-    public String contact(){
-        return "contact";
-    }
-
-    @RequestMapping("home")
-    public String home(){
-        return "home";
+    @RequestMapping("main")
+    public String main(){
+        return "main";
     }
 
     @RequestMapping("goSignIn")

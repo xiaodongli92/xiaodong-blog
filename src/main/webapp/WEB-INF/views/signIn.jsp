@@ -17,9 +17,9 @@
 <div class="login-from-box">
     <form class="form-horizontal" role="form" method="post" action="login" id="form1">
         <div class="form-group">
-            <label for="userName" class="col-xs-4 control-label">用户名：</label>
+            <label for="email" class="col-xs-4 control-label">邮箱：</label>
             <div class="col-xs-8">
-                <input type="text" class="form-control" id="userName" placeholder="用户名">
+                <input type="text" class="form-control" id="email" placeholder="邮箱">
             </div>
         </div>
         <div class="form-group">
@@ -41,4 +41,38 @@
     </form>
 </div>
 </body>
+<script>
+    $(function(){
+        $("#btn1").click(function(){
+            var email = $("#email").val();
+            var password = $("#password").val();
+            if (email==''){
+                alert("用户名不能为空");
+                $("#userName").focus();
+                return false;
+            }
+            if (password==''){
+                alert("密码不能为空");
+                $("#password").focus();
+                return false;
+            }
+            $.ajax({
+                url: '${ctx}/signIn.do',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    email: email,
+                    password: password
+                },
+                success: function(data){
+                    if (data.errorCode==1){
+                        alert(data.errorMessage);
+                    } else {
+                        location.href='${ctx}/main.do';
+                    }
+                }
+            })
+        })
+    })
+</script>
 </html>
