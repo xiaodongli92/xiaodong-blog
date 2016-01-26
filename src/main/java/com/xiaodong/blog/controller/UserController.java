@@ -22,9 +22,8 @@ public class UserController {
 
     @RequestMapping("userInfo")
     public String userInfo(HttpServletRequest request,Model model){
-        String email = (String)request.getSession().getAttribute(AppConstants.SESSION_EMAIL);
-        User user = passportService.getUserByEmail(email);
+        User user = (User)request.getSession().getAttribute(AppConstants.SESSION_USER);
         model.addAttribute("user",user);
-        return "personalInfo";
+        return "userInfo";
     }
 }

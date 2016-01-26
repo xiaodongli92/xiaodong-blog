@@ -7,12 +7,12 @@ $(function(){
 </script>
 
 <!--left-->
-<div class="col-sm-3">
+<div class="col-sm-3" style="margin-left: -100px;">
     <div class="col-nav-list">
         <div class="menu-group">
-            <h3 class="menu-title">用户设置</h3>
+            <h3 class="menu-title">个人设置</h3>
             <ul class="collapse-ul collapse-show">
-                <li><a href='${ctx}/main.do'>用户信息</a></li>
+                <li><a href='${ctx}/user/userInfo.do'>个人信息</a></li>
             </ul>
         </div>
         <div class="btn-scroll-bar"></div>

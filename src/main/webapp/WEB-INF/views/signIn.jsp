@@ -10,7 +10,7 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="col-xs-7">
-            <p class="navbar-text navbar-left">后台管理系统登录</p>
+            <p class="navbar-text navbar-left">博客登录</p>
         </div>
     </div>
 </nav>
