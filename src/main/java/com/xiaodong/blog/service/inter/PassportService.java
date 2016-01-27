@@ -13,19 +13,19 @@ public interface PassportService {
      * @param user
      * @return
      */
-    public String signUp(User user);
+    String signUp(User user);
 
     /**
      * 用户登录
      * @param user
      * @return
      */
-    public String signIn(User user);
+    String signIn(User user);
 
     /**
      * 根据邮箱得到user
      * @param email
      * @return
      */
-    public User getUserByEmail(String email);
+    User getUserByEmail(String email);
 }
