@@ -8,9 +8,9 @@
 .login-from-box {width: 320px; margin:0px auto;}
 .login-from-box form{ margin-top: 50px;}
 .btn-submit{ min-width: 320px;}
-@media (min-width: 1400px) {
+@media (min-width: 768px) {
     .container {
-        width: 1300px;
+        width: 100%;
     }
 }
 .menu-group{ border-radius: 3px; border: 1px solid #dddddd; overflow: hidden;}

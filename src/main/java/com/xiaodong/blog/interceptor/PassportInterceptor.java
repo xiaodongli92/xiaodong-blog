@@ -24,14 +24,15 @@ public class PassportInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestUri = request.getRequestURI();
-        String uri = requestUri.substring(requestUri.lastIndexOf("/")+1,requestUri.length());
-        LOG.info("ip={},requestUri={}",request.getRemoteAddr(),requestUri);
+        String uri = StringUtils.substringAfterLast(requestUri,"/");
+        LOG.info("ip={},uri={}",request.getRemoteAddr(),requestUri);
         if (this.loginUrl.contains(uri)){
             User user = (User) request.getSession().getAttribute("user");
             if (user == null){
                 response.sendRedirect(request.getContextPath()+"/goSignIn.do");
             }
         }
+        request.setAttribute("lastUri",uri);
         return true;
     }
 
