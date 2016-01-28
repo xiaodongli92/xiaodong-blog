@@ -21,23 +21,40 @@
                 <h4 style="float:left">个人信息</h4>
             </div>
         </div>
-        <table class="table table-hover table-bordered" style="width: 50%;">
-            <tr>
-                <th>类型</th>
-                <th>你的信息</th>
-                <th>隐秘性</th>
-            </tr>
-            <tr>
-                <td>姓名</td>
-                <td><input type="text" class="form-control" style="width: 200px;" name="name"></td>
-                <td>
-                    <select class="form-control" style="width: 100px;">
-                        <option value="0">隐藏</option>
-                        <option value="1">公开</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+        <form action="${ctx}/user/saveUserInfo.do" method="post">
+            <table class="table table-hover table-bordered" style="width: 50%;">
+                <tr>
+                    <th>类型</th>
+                    <th>你的信息</th>
+                    <th>隐秘性</th>
+                </tr>
+                <tr>
+                    <td>姓名</td>
+                    <td><input type="text" class="form-control" style="width: 200px;" name="name"></td>
+                    <td>
+                        <select class="form-control" style="width: 100px;">
+                            <option value="0">隐藏</option>
+                            <option value="1">公开</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>邮箱</td>
+                    <td><input type="text" class="form-control" style="width: 200px;" name="email"></td>
+                    <td>
+                        <select class="form-control" style="width: 100px;">
+                            <option value="0">隐藏</option>
+                            <option value="1">公开</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                        <button type="button" class="btn btn-large btn-block" style="width: 300px;">保存</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
     <!--right-->
 </div>

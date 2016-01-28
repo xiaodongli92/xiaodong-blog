@@ -47,7 +47,7 @@
     </filter-mapping>
 
     <welcome-file-list>
-        <welcome-file>/goSignIb.do</welcome-file>
+        <welcome-file>/goSignIn.do</welcome-file>
     </welcome-file-list>
 
 </web-app>

@@ -49,4 +49,9 @@ public class PassportServiceImpl implements PassportService {
     public User getUserByEmail(String email) {
         return passportDAO.getUserByEmail(email);
     }
+
+    @Override
+    public User update(User user) {
+        return passportDAO.save(user);
+    }
 }

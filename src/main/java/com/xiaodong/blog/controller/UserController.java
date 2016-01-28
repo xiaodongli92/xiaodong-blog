@@ -5,7 +5,6 @@ import com.xiaodong.blog.model.User;
 import com.xiaodong.blog.service.inter.PassportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +20,14 @@ public class UserController {
     private PassportService passportService;
 
     @RequestMapping("userInfo")
-    public String userInfo(HttpServletRequest request,Model model){
-        User user = (User)request.getSession().getAttribute(AppConstants.SESSION_USER);
-        model.addAttribute("user",user);
+    public String userInfo(){
         return "userInfo";
+    }
+
+    @RequestMapping("saveUserInfo")
+    public String saveUserInfo(HttpServletRequest request,User user) {
+        User newUser = passportService.update(user);
+        request.getSession().setAttribute(AppConstants.SESSION_USER,newUser);
+        return "redirect:userInfo.do";
     }
 }

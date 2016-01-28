@@ -28,4 +28,11 @@ public interface PassportService {
      * @return
      */
     User getUserByEmail(String email);
+
+    /**
+     * 更新数据
+     * @param user
+     * @return
+     */
+    User update(User user);
 }
