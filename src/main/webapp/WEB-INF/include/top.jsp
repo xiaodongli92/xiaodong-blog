@@ -13,7 +13,7 @@
 </header>
 <section id="secondary_bar">
     <div class="user">
-        <p>${sessionScope.user.name}</p>
+        <p>${sessionScope.userName}</p>
     </div>
 </section>
 

@@ -1,5 +1,6 @@
 package com.xiaodong.blog.interceptor;
 
+import com.xiaodong.blog.commons.AppConstants;
 import com.xiaodong.blog.model.User;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -27,8 +28,8 @@ public class PassportInterceptor implements HandlerInterceptor {
         String uri = StringUtils.substringAfterLast(requestUri,"/");
         LOG.info("ip={},uri={}",request.getRemoteAddr(),requestUri);
         if (this.loginUrl.contains(uri)){
-            User user = (User) request.getSession().getAttribute("user");
-            if (user == null){
+            String email = (String) request.getSession().getAttribute(AppConstants.SESSION_EMAIL);
+            if (StringUtils.isBlank(email)){
                 response.sendRedirect(request.getContextPath()+"/goSignIn.do");
             }
         }

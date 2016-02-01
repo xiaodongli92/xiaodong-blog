@@ -1,0 +1,14 @@
+package com.xiaodong.blog.dao;
+
+import com.xiaodong.blog.model.UserInfo;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+/**
+ * Created by xiaodong on 2016/2/1.
+ */
+public interface UserInfoDAO extends CrudRepository<UserInfo,String> {
+
+    @Query(value = "SELECT * FROM user_info WHERE user_id=?",nativeQuery = true)
+    UserInfo getUserInfoByUserId(long id);
+}

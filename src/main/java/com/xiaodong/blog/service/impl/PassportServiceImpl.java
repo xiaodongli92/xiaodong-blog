@@ -2,7 +2,9 @@ package com.xiaodong.blog.service.impl;
 
 import com.xiaodong.blog.commons.AppConstants;
 import com.xiaodong.blog.dao.PassportDAO;
+import com.xiaodong.blog.dao.UserInfoDAO;
 import com.xiaodong.blog.model.User;
+import com.xiaodong.blog.model.UserInfo;
 import com.xiaodong.blog.service.inter.PassportService;
 import com.xiaodong.blog.utils.ValidateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class PassportServiceImpl implements PassportService {
 
     @Autowired
     private PassportDAO passportDAO;
+
+    @Autowired
+    private UserInfoDAO userInfoDAO;
 
     @Override
     public String signUp(User user) {
@@ -53,5 +58,15 @@ public class PassportServiceImpl implements PassportService {
     @Override
     public User update(User user) {
         return passportDAO.save(user);
+    }
+
+    @Override
+    public User getUserById(long userId) {
+        return passportDAO.getUserById(userId);
+    }
+
+    @Override
+    public UserInfo getUserInfoByUserId(long userId) {
+        return userInfoDAO.getUserInfoByUserId(userId);
     }
 }

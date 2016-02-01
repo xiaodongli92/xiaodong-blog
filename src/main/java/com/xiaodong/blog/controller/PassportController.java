@@ -1,8 +1,8 @@
 package com.xiaodong.blog.controller;
 
-import com.xiaodong.blog.commons.AppConstants;
 import com.xiaodong.blog.model.User;
 import com.xiaodong.blog.service.inter.PassportService;
+import com.xiaodong.blog.utils.CommonsUtils;
 import com.xiaodong.blog.utils.JsonResponseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +51,7 @@ public class PassportController {
                 return JsonResponseUtils.badResult(errMsg);
             }
             User userSession = passportService.getUserByEmail(user.getEmail());
-            request.getSession().setAttribute(AppConstants.SESSION_USER,userSession);
+            CommonsUtils.setSession(request,userSession);
             return JsonResponseUtils.ok();
         } catch (Exception e){
             LOG.error("error:",e);
@@ -62,7 +62,7 @@ public class PassportController {
     @RequestMapping("signOut")
     public String signOut(HttpServletRequest request) {
         try {
-            request.getSession().removeAttribute(AppConstants.SESSION_USER);
+            CommonsUtils.removeAllSession(request);
         } catch (Exception e) {
             LOG.error("sign out error",e);
         }

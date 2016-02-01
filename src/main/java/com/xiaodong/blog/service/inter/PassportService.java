@@ -2,6 +2,7 @@ package com.xiaodong.blog.service.inter;
 
 
 import com.xiaodong.blog.model.User;
+import com.xiaodong.blog.model.UserInfo;
 
 /**
  * Created by xiaodong on 2015/11/16.
@@ -35,4 +36,18 @@ public interface PassportService {
      * @return
      */
     User update(User user);
+
+    /**
+     * 根据id得到用户基本信息
+     * @param userId
+     * @return
+     */
+    User getUserById(long userId);
+
+    /**
+     * 根据userId获得用户个人资料
+     * @param userId
+     * @return
+     */
+    UserInfo getUserInfoByUserId(long userId);
 }

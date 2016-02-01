@@ -21,5 +21,9 @@ public class AppConstants {
 
     public static final String NOT_SIGN_UP = "The email is not registered";//邮箱未注册
 
-    public static final String SESSION_USER = "user";//session中user
+    public static final String SESSION_USER_NAME = "userName";
+
+    public static final String SESSION_EMAIL = "email";
+
+    public static final String SESSION_USER_ID = "userId";
 }
