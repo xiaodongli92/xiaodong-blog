@@ -39,6 +39,10 @@
                     <td><input type="text" class="form-control" style="width: 300px;" name="realName"></td>
                 </tr>
                 <tr>
+                    <td class="left_tr">生日</td>
+                    <td><input type="text" class="form-control my-date" style="width: 300px;" name="birthday"></td>
+                </tr>
+                <tr>
                     <td class="left_tr">邮箱</td>
                     <td><input type="text" class="form-control" style="width: 300px;" name="email" disabled></td>
                 </tr>
@@ -89,10 +93,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="left_tr">生日</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" name="birthday"></td>
-                </tr>
-                <tr>
                     <td class="left_tr">血型</td>
                     <td>
                         <select name="bloodType" class="form-control" style="width: 300px;text-align: center">
@@ -123,4 +123,13 @@
     <!--right-->
 </div>
 </body>
+<script>
+    $(".my-date").datepicker({
+        format: 'yyyy-mm-dd',
+        weekStart: 1,
+        autoclose: true,
+        todayBtn: 'linked',
+        language: 'zh-CN'
+    });
+</script>
 </html>
