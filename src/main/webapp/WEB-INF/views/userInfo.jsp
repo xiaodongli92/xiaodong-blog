@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" %>
 <%@ include file="/WEB-INF/include/taglibs.jsp" %>
 <!DOCTYPE html>
@@ -23,7 +24,8 @@
             </div>
         </div>
         <form action="${ctx}/user/saveUserInfo.do" method="post">
-            <table class="table table-hover table-bordered" style="width: 80%;margin-left: 10%">
+            <table class="table table-hover table-bordered table-striped" style="width: 80%;margin-left: 10%">
+                <input type="hidden" name="id" value="">
                 <tr>
                     <th class="left_tr">类型</th>
                     <th>你的信息</th>
@@ -81,25 +83,38 @@
                 <tr>
                     <td class="left_tr">感情状况</td>
                     <td>
-                        <select name="maritalStatus" class="form-control" style="width: 300px;">
-                            <option value="">——请选择——</option>
-                            <option value="1">单身</option>
-                            <option value="2">求交往</option>
-                            <option value="3">暗恋中</option>
-                            <option value="4">暧昧中</option>
-                            <option value="5">恋爱中</option>
-                            <option value="6">订婚</option>
-                            <option value="7">已婚</option>
-                            <option value="8">分居</option>
-                            <option value="9">单身</option>
-                            <option value="10">单身</option>
-                            <option value="99">单身</option>
+                        <select name="maritalStatus" class="form-control" style="width: 300px;text-align: center">
+                            <option value="">请选择</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
+                    <td class="left_tr">生日</td>
+                    <td><input type="text" class="form-control" style="width: 300px;" name="birthday"></td>
+                </tr>
+                <tr>
+                    <td class="left_tr">血型</td>
+                    <td>
+                        <select name="bloodType" class="form-control" style="width: 300px;text-align: center">
+                            <option value="">请选择</option>
+                            <option value="1">A型</option>
+                            <option value="2">B型</option>
+                            <option value="3">AB型</option>
+                            <option value="4">O型</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="left_tr">简介</td>
+                    <td>
+                        <textarea type="text" class="form-control" style="width: 300px;height: 70px;" name="profile"></textarea>
+                    </td>
+                </tr>
+                <tr>
                     <td colspan="2">
-                        <button type="button" class="btn btn-large btn-block" style="width: 300px;margin-left: 30%;">保存</button>
+                        <button type="button" class="btn btn-large btn-block" style="width: 300px;margin-left: 30%;">
+                            保存
+                        </button>
                     </td>
                 </tr>
             </table>
