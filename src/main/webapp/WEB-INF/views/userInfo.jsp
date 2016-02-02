@@ -32,19 +32,19 @@
                 </tr>
                 <tr>
                     <td class="left_tr">昵称</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" name="name"></td>
+                    <td><input type="text" class="form-control" style="width: 300px;" name="name" value="${user.name}"></td>
                 </tr>
                 <tr>
                     <td class="left_tr">真实姓名</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" name="realName"></td>
+                    <td><input type="text" class="form-control" style="width: 300px;" name="realName" value="${user.realName}"></td>
                 </tr>
                 <tr>
                     <td class="left_tr">生日</td>
-                    <td><input type="text" class="form-control my-date" style="width: 300px;" name="birthday"></td>
+                    <td><input type="text" class="form-control my-date" style="width: 300px;" name="birthday" value="${userInfo.birthday}"></td>
                 </tr>
                 <tr>
                     <td class="left_tr">邮箱</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" name="email" disabled></td>
+                    <td><input type="text" class="form-control" style="width: 300px;" name="email" value="${user.email}" disabled></td>
                 </tr>
                 <tr>
                     <td class="left_tr">手机号</td>
@@ -52,7 +52,8 @@
                 </tr>
                 <tr>
                     <td class="left_tr">注册时间</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" name="registerDate" disabled></td>
+                    <td><input type="text" class="form-control" style="width: 300px;" name="registerDate" disabled
+                        value="<fmt:formatDate value="${user.registerDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"> </td>
                 </tr>
                 <tr>
                     <td class="left_tr">所在地</td>

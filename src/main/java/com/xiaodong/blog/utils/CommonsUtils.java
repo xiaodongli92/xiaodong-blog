@@ -34,7 +34,7 @@ public class CommonsUtils {
         session.removeAttribute(AppConstants.SESSION_USER_ID);
     }
 
-    public static long getUserIdFromSession(HttpServletRequest request) {
+    public static Long getUserIdFromSession(HttpServletRequest request) {
         return (Long) request.getSession().getAttribute(AppConstants.SESSION_USER_ID);
     }
 }

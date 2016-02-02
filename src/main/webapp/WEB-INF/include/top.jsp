@@ -7,7 +7,7 @@
         <h1 class="site_title"><a href="${pageContext.request.contextPath}/main.do" >blog</a></h1>
         <h2 class="section_title">首页</h2>
         <div class="btn_view_site">
-            <a href="https://admin.souyidai.com/auth/logout" class="navbar-link">退出</a>
+            <a href="${pageContext.request.contextPath}/signOut.do" class="navbar-link">退出</a>
         </div>
     </hgroup>
 </header>

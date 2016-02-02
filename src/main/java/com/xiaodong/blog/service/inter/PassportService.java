@@ -50,4 +50,11 @@ public interface PassportService {
      * @return
      */
     UserInfo getUserInfoByUserId(long userId);
+
+    /**
+     * 更新用户个人资料
+     * @param userInfo
+     * @return
+     */
+    UserInfo updateUserInfo(UserInfo userInfo);
 }

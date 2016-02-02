@@ -1,6 +1,8 @@
 package com.xiaodong.blog.controller;
 
+import com.xiaodong.blog.commons.AppConstants;
 import com.xiaodong.blog.model.User;
+import com.xiaodong.blog.model.UserInfo;
 import com.xiaodong.blog.service.inter.PassportService;
 import com.xiaodong.blog.utils.CommonsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +23,19 @@ public class UserController {
 
     @RequestMapping("userInfo")
     public String userInfo(HttpServletRequest request){
-        long userId = CommonsUtils.getUserIdFromSession(request);
-
+        Long userId = CommonsUtils.getUserIdFromSession(request);
+        User user = passportService.getUserById(userId);
+        UserInfo userInfo = passportService.getUserInfoByUserId(userId);
+        request.setAttribute("user",user);
+        request.setAttribute("userInfo",userInfo);
         return "userInfo";
     }
 
     @RequestMapping("saveUserInfo")
-    public String saveUserInfo(HttpServletRequest request,User user) {
-        User newUser = passportService.update(user);
+    public String saveUserInfo(HttpServletRequest request,User user,UserInfo userInfo) {
+        passportService.update(user);
+        passportService.updateUserInfo(userInfo);
+        request.getSession().setAttribute(AppConstants.SESSION_USER_NAME,user.getName());
         return "redirect:userInfo.do";
     }
 }

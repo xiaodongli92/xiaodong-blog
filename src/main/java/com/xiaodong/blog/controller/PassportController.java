@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * Created by xiaodong on 2015/11/13.
@@ -29,6 +30,7 @@ public class PassportController {
     @RequestMapping("signUp")
     public String signUp(User user){
         try {
+            user.setRegisterDate(new Date());
             String errMsg = passportService.signUp(user);
             if (errMsg!=null){
                 return JsonResponseUtils.badResult(errMsg);

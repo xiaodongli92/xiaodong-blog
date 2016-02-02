@@ -69,4 +69,9 @@ public class PassportServiceImpl implements PassportService {
     public UserInfo getUserInfoByUserId(long userId) {
         return userInfoDAO.getUserInfoByUserId(userId);
     }
+
+    @Override
+    public UserInfo updateUserInfo(UserInfo userInfo) {
+        return userInfoDAO.save(userInfo);
+    }
 }
