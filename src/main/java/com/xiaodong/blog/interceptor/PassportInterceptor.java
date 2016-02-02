@@ -20,7 +20,7 @@ public class PassportInterceptor implements HandlerInterceptor {
 
     private static final Logger LOG = LoggerFactory.getLogger(PassportInterceptor.class);
 
-    private List<String> loginUrl = Arrays.asList(new String[]{"index.do","main.do","userInfo.do"});
+    private List<String> loginUrl = Arrays.asList(new String[]{"index.do","main.do","userInfo.do","saveUserInfo.do"});
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

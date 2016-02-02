@@ -18,7 +18,7 @@
     </div>
 </nav>
 <div class="login-from-box">
-    <form class="form-horizontal" role="form" method="post" action="login" id="form1">
+    <form class="form-horizontal" role="form" method="post">
         <div class="form-group">
             <label for="email" class="col-xs-4 control-label">邮箱：</label>
             <div class="col-xs-8">

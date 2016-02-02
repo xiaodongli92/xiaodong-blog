@@ -23,48 +23,49 @@
                 <h4 style="float:left">个人信息</h4>
             </div>
         </div>
-        <form action="${ctx}/user/saveUserInfo.do" method="post">
+        <form action="${ctx}/user/saveUserInfo.do" method="post" id="form">
             <table class="table table-hover table-bordered table-striped" style="width: 80%;margin-left: 10%">
-                <input type="hidden" name="id" value="">
+                <input type="hidden" id="userId" value="${user.id}">
+                <input type="hidden" id="userInfoId" value="${userInfo.id}">
                 <tr>
                     <th class="left_tr">类型</th>
                     <th>你的信息</th>
                 </tr>
                 <tr>
                     <td class="left_tr">昵称</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" name="name" value="${user.name}"></td>
+                    <td><input type="text" class="form-control" style="width: 300px;" id="name" value="${user.name}"></td>
                 </tr>
                 <tr>
                     <td class="left_tr">真实姓名</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" name="realName" value="${user.realName}"></td>
+                    <td><input type="text" class="form-control" style="width: 300px;" id="realName" value="${user.realName}"></td>
                 </tr>
                 <tr>
                     <td class="left_tr">生日</td>
-                    <td><input type="text" class="form-control my-date" style="width: 300px;" name="birthday" value="${userInfo.birthday}"></td>
+                    <td><input type="text" class="form-control my-date" style="width: 300px;" id="birthday" value="${userInfo.birthday}"></td>
                 </tr>
                 <tr>
                     <td class="left_tr">邮箱</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" name="email" value="${user.email}" disabled></td>
+                    <td><input type="text" class="form-control" style="width: 300px;" id="email" value="${user.email}" disabled></td>
                 </tr>
                 <tr>
                     <td class="left_tr">手机号</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" name="mobile"></td>
+                    <td><input type="text" class="form-control" style="width: 300px;" id="mobile"></td>
                 </tr>
                 <tr>
                     <td class="left_tr">注册时间</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" name="registerDate" disabled
+                    <td><input type="text" class="form-control" style="width: 300px;" id="registerDate" disabled
                         value="<fmt:formatDate value="${user.registerDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"> </td>
                 </tr>
                 <tr>
                     <td class="left_tr">所在地</td>
                     <td>
-                        <select name="provinceCode" class="form-control" style="width: 150px;float: left">
+                        <select id="provinceCode" class="form-control" style="width: 150px;float: left">
                             <option>省份</option>
                         </select>
-                        <select name="cityCode" class="form-control" style="width: 150px;float: left">
+                        <select id="cityCode" class="form-control" style="width: 150px;float: left">
                             <option>城市</option>
                         </select>
-                        <select name="countyCode" class="form-control" style="width: 150px;float: left">
+                        <select id="countyCode" class="form-control" style="width: 150px;float: left">
                             <option>区县</option>
                         </select>
                     </td>
@@ -88,7 +89,7 @@
                 <tr>
                     <td class="left_tr">感情状况</td>
                     <td>
-                        <select name="maritalStatus" class="form-control" style="width: 300px;text-align: center">
+                        <select id="maritalStatus" class="form-control" style="width: 300px;text-align: center">
                             <option value="">请选择</option>
                         </select>
                     </td>
@@ -96,7 +97,7 @@
                 <tr>
                     <td class="left_tr">血型</td>
                     <td>
-                        <select name="bloodType" class="form-control" style="width: 300px;text-align: center">
+                        <select id="bloodType" class="form-control" style="width: 300px;text-align: center">
                             <option value="">请选择</option>
                             <option value="1">A型</option>
                             <option value="2">B型</option>
@@ -108,12 +109,12 @@
                 <tr>
                     <td class="left_tr">简介</td>
                     <td>
-                        <textarea type="text" class="form-control" style="width: 300px;height: 70px;" name="profile"></textarea>
+                        <textarea type="text" class="form-control" style="width: 300px;height: 70px;" id="profile"></textarea>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button type="button" class="btn btn-large btn-block" style="width: 300px;margin-left: 30%;">
+                        <button type="button" id="button" class="btn btn-large btn-block" style="width: 300px;margin-left: 30%;">
                             保存
                         </button>
                     </td>
@@ -132,5 +133,10 @@
         todayBtn: 'linked',
         language: 'zh-CN'
     });
+    $("#button").click(function(){
+        var userId = $("userId").val();
+        var userInfoId = $("userInfoId").val();
+        var name = $("#name").val();
+    })
 </script>
 </html>

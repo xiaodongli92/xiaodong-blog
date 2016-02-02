@@ -47,7 +47,7 @@
     </filter-mapping>
 
     <welcome-file-list>
-        <welcome-file>/goSignIn.do</welcome-file>
+        <welcome-file>/main.do</welcome-file>
     </welcome-file-list>
 
 </web-app>
