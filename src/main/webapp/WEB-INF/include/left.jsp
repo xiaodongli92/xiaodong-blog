@@ -12,7 +12,11 @@ $(function(){
         <div class="menu-group">
             <h3 class="menu-title">个人设置</h3>
             <ul class="collapse-ul collapse-show">
-                <li ${lastUri=="userInfo.do"?'class="collapse-active"':''}><a href='${ctx}/user/userInfo.do'>个人信息</a></li>
+                <li ${lastUri=="userInfo.do"?'class="collapse-active"':''}><a href='${ctx}/user/userInfo.do'>个人资料</a></li>
+            </ul>
+            <h3 class="menu-title">系统设置</h3>
+            <ul class="collapse-ul collapse-show">
+                <li ${lastUri=="userInfo.do"?'class="collapse-active"':''}><a href='${ctx}/user/userInfo.do'>字典管理</a></li>
             </ul>
         </div>
         <div class="btn-scroll-bar"></div>

@@ -73,7 +73,7 @@
                 <tr>
                     <td class="left_tr">性别</td>
                     <td>
-                        <input type="radio" name="gender" value="1">男
+                        <input type="radio" name="gender" value="1" checked>男
                         &nbsp;&nbsp;&nbsp;
                         <input type="radio" name="gender" value="2">女
                     </td>
@@ -83,7 +83,7 @@
                     <td>
                         <input type="radio" name="sexualOrientation" value="1">男
                         &nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="sexualOrientation" value="2">女
+                        <input type="radio" name="sexualOrientation" value="2" checked>女
                     </td>
                 </tr>
                 <tr>
@@ -172,6 +172,29 @@
                         console.log(map);
                         $.each(map, function (key, values) {
                             $("#cityCode").append("<option value='" + key + "'>" + values + "</option>");
+                        });
+                    }
+                }
+            })
+        })
+        $("#cityCode").on('change',function(){
+            $("#countyCode").html("<option value=''>区县</option>");
+            var cityCode = $("#cityCode").val();
+            $.ajax({
+                url: '${ctx}/getCountyMap.do',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    cityCode: cityCode
+                },
+                success: function(data){
+                    if (data.errorCode==1){
+                        alert(data.errorMessage);
+                    } else {
+                        var map = data.data;
+                        console.log(map);
+                        $.each(map, function (key, values) {
+                            $("#countyCode").append("<option value='" + key + "'>" + values + "</option>");
                         });
                     }
                 }
