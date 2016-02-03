@@ -128,7 +128,7 @@
 <script>
     $(function(){
         $.ajax({
-            url: '${ctx}/getProvinceMap.do',
+            url: '${ctx}/bs/getProvinceMap.do',
             type: 'post',
             dataType: 'json',
             success: function(data){
@@ -158,7 +158,7 @@
             $("#cityCode").html("<option value=''>城市</option>");
             var provinceCode = $("#provinceCode").val();
             $.ajax({
-                url: '${ctx}/getCityMap.do',
+                url: '${ctx}/bs/getCityMap.do',
                 type: 'post',
                 dataType: 'json',
                 data: {
@@ -181,7 +181,7 @@
             $("#countyCode").html("<option value=''>区县</option>");
             var cityCode = $("#cityCode").val();
             $.ajax({
-                url: '${ctx}/getCountyMap.do',
+                url: '${ctx}/bs/getCountyMap.do',
                 type: 'post',
                 dataType: 'json',
                 data: {

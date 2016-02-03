@@ -1,7 +1,11 @@
 package com.xiaodong.blog.service.impl;
 
 import com.xiaodong.blog.dao.AreaCodeDAO;
+import com.xiaodong.blog.dao.CodeItemDAO;
+import com.xiaodong.blog.dao.CodeSetDAO;
 import com.xiaodong.blog.model.AreaCode;
+import com.xiaodong.blog.model.CodeItem;
+import com.xiaodong.blog.model.CodeSet;
 import com.xiaodong.blog.service.inter.CodeItemService;
 import com.xiaodong.blog.utils.CommonsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,12 @@ public class CodeItemServiceImpl implements CodeItemService {
 
     @Autowired
     private AreaCodeDAO areaCodeDAO;
+
+    @Autowired
+    private CodeSetDAO codeSetDAO;
+
+    @Autowired
+    private CodeItemDAO codeItemDAO;
 
     @Override
     public Map<String, String> getProvinceMap() {
@@ -53,5 +63,20 @@ public class CodeItemServiceImpl implements CodeItemService {
 
     private static String getAreaCodeStartStr(String code,int length) {
         return code.substring(0,length)+"%";
+    }
+
+    @Override
+    public List<CodeSet> getAllCodeSet() {
+        return codeSetDAO.getAll();
+    }
+
+    @Override
+    public void saveCodeSet(CodeSet codeSet) {
+        codeSetDAO.save(codeSet);
+    }
+
+    @Override
+    public List<CodeItem> getCodeItemByCodeSet(String codeSetValue) {
+        return codeItemDAO.getByCodeSetValue(codeSetValue);
     }
 }

@@ -12,6 +12,6 @@ import java.util.List;
 public interface CodeSetDAO extends CrudRepository<CodeSet,String> {
 
     @Query(value = "SELECT * FROM code_set",nativeQuery = true)
-    public List<CodeSet> getAll();
+    List<CodeSet> getAll();
 
 }

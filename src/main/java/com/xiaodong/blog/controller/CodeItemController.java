@@ -1,5 +1,6 @@
 package com.xiaodong.blog.controller;
 
+import com.xiaodong.blog.model.CodeSet;
 import com.xiaodong.blog.service.inter.CodeItemService;
 import com.xiaodong.blog.utils.JsonResponseUtils;
 import org.slf4j.Logger;
@@ -10,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by xiaodong on 2016/2/2.
  */
 @Controller
-@RequestMapping("")
+@RequestMapping("bs")
 public class CodeItemController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CodeItemController.class);
@@ -76,4 +79,27 @@ public class CodeItemController {
             return JsonResponseUtils.badResult(e.getMessage());
         }
     }
+
+    @RequestMapping("codeSet")
+    public String codeSet(HttpServletRequest request){
+        try {
+            request.setAttribute("codeSet",codeItemService.getAllCodeSet());
+            return "codeSet";
+        } catch (Exception e){
+            LOG.error("获取codeSet失败，",e);
+            return JsonResponseUtils.badResult(e.getMessage());
+        }
+    }
+
+    @RequestMapping("saveCodeSet")
+    public String saveCodeSet(CodeSet codeSet){
+        try {
+            codeItemService.saveCodeSet(codeSet);
+            return "redirect:bs/codeSet.do";
+        } catch (Exception e){
+            LOG.error("保存codeSet失败，",e);
+            return JsonResponseUtils.badResult(e.getMessage());
+        }
+    }
+
 }

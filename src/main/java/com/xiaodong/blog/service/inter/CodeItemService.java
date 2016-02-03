@@ -1,6 +1,8 @@
 package com.xiaodong.blog.service.inter;
 
 import com.xiaodong.blog.model.AreaCode;
+import com.xiaodong.blog.model.CodeItem;
+import com.xiaodong.blog.model.CodeSet;
 
 import java.util.List;
 import java.util.Map;
@@ -19,4 +21,11 @@ public interface CodeItemService {
     List<AreaCode> getAreaList();
 
     Map<String,String> getAreaMap();
+
+    List<CodeSet> getAllCodeSet();
+
+    void saveCodeSet(CodeSet codeSet);
+
+    List<CodeItem> getCodeItemByCodeSet(String codeSetValue);
+
 }
