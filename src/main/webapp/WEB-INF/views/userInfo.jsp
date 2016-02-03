@@ -62,7 +62,7 @@
                         <select id="provinceCode" class="form-control" style="width: 150px;float: left">
                             <option>省份</option>
                         </select>
-                        <select id="cityCode" class="form-control" style="width: 150px;float: left">
+                        <select id="cityCode" class="form-control" style="width: 150px;float: left;height: 100%;">
                             <option>城市</option>
                         </select>
                         <select id="countyCode" class="form-control" style="width: 150px;float: left">
@@ -126,17 +126,57 @@
 </div>
 </body>
 <script>
-    $(".my-date").datepicker({
-        format: 'yyyy-mm-dd',
-        weekStart: 1,
-        autoclose: true,
-        todayBtn: 'linked',
-        language: 'zh-CN'
-    });
-    $("#button").click(function(){
-        var userId = $("userId").val();
-        var userInfoId = $("userInfoId").val();
-        var name = $("#name").val();
+    $(function(){
+        $.ajax({
+            url: '${ctx}/getProvinceMap.do',
+            type: 'post',
+            dataType: 'json',
+            success: function(data){
+                if (data.errorCode==1){
+                    alert(data.errorMessage);
+                } else {
+                    var map = data.data;
+                    $.each(map, function (key, values) {
+                        $("#provinceCode").append("<option value='" + key + "'>" + values + "</option>");
+                    });
+                }
+            }
+        })
+        $(".my-date").datepicker({
+            format: 'yyyy-mm-dd',
+            weekStart: 1,
+            autoclose: true,
+            todayBtn: 'linked',
+            language: 'zh-CN'
+        });
+        $("#button").click(function(){
+            var userId = $("userId").val();
+            var userInfoId = $("userInfoId").val();
+            var name = $("#name").val();
+        })
+        $("#provinceCode").on('change',function(){
+            $("#cityCode").html("<option value=''>城市</option>");
+            var provinceCode = $("#provinceCode").val();
+            $.ajax({
+                url: '${ctx}/getCityMap.do',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    provinceCode: provinceCode
+                },
+                success: function(data){
+                    if (data.errorCode==1){
+                        alert(data.errorMessage);
+                    } else {
+                        var map = data.data;
+                        console.log(map);
+                        $.each(map, function (key, values) {
+                            $("#cityCode").append("<option value='" + key + "'>" + values + "</option>");
+                        });
+                    }
+                }
+            })
+        })
     })
 </script>
 </html>

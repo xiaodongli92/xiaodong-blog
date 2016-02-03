@@ -26,17 +26,31 @@ public class CodeItemServiceImpl implements CodeItemService {
     }
 
     @Override
-    public Map<String, String> getCityMap() {
-        return null;
+    public Map<String, String> getCityMap(String provinceCode) {
+        String provinceCodeStart = getAreaCodeStartStr(provinceCode);
+        List<AreaCode> areaCodes = areaCodeDAO.getCityAreaCode(provinceCodeStart);
+        return CommonsUtils.getMapFromAreaList(areaCodes);
     }
 
     @Override
-    public Map<String, String> getCountyMap() {
-        return null;
+    public Map<String, String> getCountyMap(String cityCode) {
+        String cityCodeStart = getAreaCodeStartStr(cityCode);
+        List<AreaCode> areaCodes = areaCodeDAO.getCountyCode(cityCodeStart);
+        return CommonsUtils.getMapFromAreaList(areaCodes);
     }
 
     @Override
     public List<AreaCode> getAreaList() {
-        return null;
+        return areaCodeDAO.getAreaList();
+    }
+
+    @Override
+    public Map<String, String> getAreaMap() {
+        List<AreaCode> areaCodes = areaCodeDAO.getAreaList();
+        return CommonsUtils.getMapFromAreaList(areaCodes);
+    }
+
+    private static String getAreaCodeStartStr(String code) {
+        return code.substring(0,2)+"%";
     }
 }

@@ -14,6 +14,12 @@ public interface AreaCodeDAO{
     @Query(value = "SELECT * FROM area_code WHERE code%10000=0",nativeQuery = true)
     List<AreaCode> getProvinceAreaCode();
 
-    @Query(value = "SELECT * FROM area_code WHERE code like ?1/10000 and code%10000!=0",nativeQuery = true)
+    @Query(value = "SELECT * FROM area_code WHERE code like ?1 and (code%10000!=0 or is_zxs=1) and code%100=0",nativeQuery = true)
     List<AreaCode> getCityAreaCode(String provinceCode);
+
+    @Query(value = "SELECT * FROM area_code WHERE code like ?1 and code%100!=0",nativeQuery = true)
+    List<AreaCode> getCountyCode(String cityCode);
+
+    @Query(value = "SELECT * FROM area_code",nativeQuery = true)
+    List<AreaCode> getAreaList();
 }

@@ -12,9 +12,11 @@ public interface CodeItemService {
 
     Map<String,String> getProvinceMap();
 
-    Map<String,String> getCityMap();
+    Map<String,String> getCityMap(String provinceCode);
 
-    Map<String,String> getCountyMap();
+    Map<String,String> getCountyMap(String CityCode);
 
     List<AreaCode> getAreaList();
+
+    Map<String,String> getAreaMap();
 }
