@@ -11,7 +11,7 @@ public class Test {
         Connection conn;
         Connection connLocal;
         String sql;
-        String url = "jdbc:mysql://192.168.10.15:3306/soeasy_dict?user=soeasy&password=soeasy&useUnicode=true&characterEncoding=UTF8";
+        String url = "jdbc:mysql:///soeasy_dict?user=soeasy&password=&useUnicode=true&characterEncoding=UTF8";
         String urlLocal = "jdbc:mysql://localhost:3306/blog?user=root&password=admin&useUnicode=true&characterEncoding=UTF8";
 
         try {
