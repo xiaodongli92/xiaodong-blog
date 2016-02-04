@@ -14,5 +14,11 @@ public interface CodeSetDAO extends CrudRepository<CodeSet,String> {
     @Query(value = "SELECT * FROM code_set",nativeQuery = true)
     List<CodeSet> getAll();
 
-//    @Query(value = "update code_set set ",nativeQuery = true)
+    @Query(value = "update code_set set" +
+            " code_set_name=?.codeSetName," +
+            " code_set_value=?.codeSetValue," +
+            " remark=?.remark," +
+            " status=?.status," +
+            " seq=?.seq where id=?.seq",nativeQuery = true)
+    void update(CodeSet codeSet);
 }

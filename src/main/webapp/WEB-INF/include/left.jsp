@@ -16,7 +16,7 @@ $(function(){
             </ul>
             <h3 class="menu-title">系统设置</h3>
             <ul class="collapse-ul collapse-show">
-                <li ${lastUri=="codeSet.do"?'class="collapse-active"':''}><a href='${ctx}/user/userInfo.do'>字典管理</a></li>
+                <li ${lastUri=="codeSet.do"?'class="collapse-active"':''}><a href='${ctx}/bs/codeSet.do'>字典管理</a></li>
             </ul>
         </div>
         <div class="btn-scroll-bar"></div>

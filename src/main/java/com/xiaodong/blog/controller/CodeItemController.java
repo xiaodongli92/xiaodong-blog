@@ -83,7 +83,7 @@ public class CodeItemController {
     @RequestMapping("codeSet")
     public String codeSet(HttpServletRequest request){
         try {
-            request.setAttribute("codeSet",codeItemService.getAllCodeSet());
+            request.setAttribute("codeSets",codeItemService.getAllCodeSet());
             return "codeSet";
         } catch (Exception e){
             LOG.error("获取codeSet失败，",e);
@@ -91,24 +91,27 @@ public class CodeItemController {
         }
     }
 
+    @ResponseBody
     @RequestMapping("saveCodeSet")
     public String saveCodeSet(CodeSet codeSet){
         try {
+            LOG.info("save_code_set:{}",codeSet);
             codeItemService.saveCodeSet(codeSet);
-            return "redirect:bs/codeSet.do";
+            return JsonResponseUtils.ok();
         } catch (Exception e){
             LOG.error("保存codeSet失败，",e);
             return JsonResponseUtils.badResult(e.getMessage());
         }
     }
 
+    @ResponseBody
     @RequestMapping("updateCodeSet")
     public String updateCodeSet(CodeSet codeSet){
         try {
-            codeItemService.saveCodeSet(codeSet);
-            return "redirect:bs/codeSet.do";
+            codeItemService.updateCodeSet(codeSet);
+            return JsonResponseUtils.ok();
         } catch (Exception e){
-            LOG.error("保存codeSet失败，",e);
+            LOG.error("更新codeSet失败，",e);
             return JsonResponseUtils.badResult(e.getMessage());
         }
     }

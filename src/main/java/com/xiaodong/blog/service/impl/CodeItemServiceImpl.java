@@ -77,7 +77,7 @@ public class CodeItemServiceImpl implements CodeItemService {
 
     @Override
     public void updateCodeSet(CodeSet codeSet) {
-//        codeSetDAO
+        codeSetDAO.update(codeSet);
     }
 
     @Override
