@@ -102,4 +102,15 @@ public class CodeItemController {
         }
     }
 
+    @RequestMapping("updateCodeSet")
+    public String updateCodeSet(CodeSet codeSet){
+        try {
+            codeItemService.saveCodeSet(codeSet);
+            return "redirect:bs/codeSet.do";
+        } catch (Exception e){
+            LOG.error("保存codeSet失败，",e);
+            return JsonResponseUtils.badResult(e.getMessage());
+        }
+    }
+
 }

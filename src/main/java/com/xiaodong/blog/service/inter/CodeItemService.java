@@ -26,6 +26,8 @@ public interface CodeItemService {
 
     void saveCodeSet(CodeSet codeSet);
 
+    void updateCodeSet(CodeSet codeSet);
+
     List<CodeItem> getCodeItemByCodeSet(String codeSetValue);
 
 }
