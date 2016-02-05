@@ -99,8 +99,11 @@ public class CodeItemController {
     public String saveCodeSet(CodeSet codeSet){
         try {
             LOG.info("save_code_set:{}",codeSet);
-            codeItemService.saveCodeSet(codeSet);
-            return JsonResponseUtils.ok();
+            String errMsg = codeItemService.saveCodeSet(codeSet);
+            if (errMsg==null) {
+                return JsonResponseUtils.ok();
+            }
+            return JsonResponseUtils.badResult(errMsg);
         } catch (Exception e){
             LOG.error("保存codeSet失败，",e);
             return JsonResponseUtils.badResult(e.getMessage());
@@ -108,13 +111,16 @@ public class CodeItemController {
     }
 
     @ResponseBody
-    @RequestMapping("updateCodeSet")
-    public String updateCodeSet(CodeSet codeSet){
+    @RequestMapping("deleteCodeSet")
+    public String deleteCodeSet(@Param("id") Long id){
         try {
-            codeItemService.updateCodeSet(codeSet);
+            if (id==null || id.longValue()<1){
+                return JsonResponseUtils.badResult("id无效");
+            }
+            codeItemService.deleteCodeSet(id.longValue());
             return JsonResponseUtils.ok();
         } catch (Exception e){
-            LOG.error("更新codeSet失败，",e);
+            LOG.error("删除codeSet失败，",e);
             return JsonResponseUtils.badResult(e.getMessage());
         }
     }

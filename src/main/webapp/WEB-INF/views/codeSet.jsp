@@ -20,7 +20,9 @@
         <div class="panel panel-default">
             <div class="panel-heading" style="overflow:auto;">
                 <h4 style="float:left">字典配置</h4>
-                <button type="button" data-toggle="modal" data-target="#add" class="btn btn-default" style="float: right">添加代码集</button>
+                <button type="button" id="addPop" data-toggle="modal" data-target="#add" class="btn btn-default" style="float: right">
+                    添加代码集
+                </button>
             </div>
         </div>
         <table class="table table-hover alignCenter" style="width: 100%">
@@ -35,16 +37,17 @@
             </tr>
             <c:forEach var="codeSet" items="${codeSets}">
                 <tr>
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" value="${codeSet.id}"></td>
                     <td>${codeSet.seq}</td>
-                    <td>${codeSet.codeSetName}</td>
+                    <td>
+                        <a href class="update" data-toggle="modal" data-target="#add">${codeSet.codeSetName}</a>
+                    </td>
                     <td>${codeSet.codeSetValue}</td>
                     <td>${codeSet.status}</td>
                     <td>${codeSet.remark}</td>
                     <td>
-                        <a href="javascript:goCodeItem(1)">进入代码列表</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="javascript:deleteCodeSet(1)">删除</a>
+                        <a href>进入代码列表</a>
+                        <a href="javascript:void(0)" class="delete" style="margin-left: 20px;">删除</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -63,16 +66,17 @@
                 <h4 class="modal-title fydTitle" style="text-align: left;">添加代码集</h4>
             </div>
             <br>
+            <input type="hidden" id="id" class="initPop">
             <div class="form-group">
                 <label for="codeSetName" class="col-sm-4 control-label">代码集名称：</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" style="width: 300px;" id="codeSetName">
+                    <input type="text" class="form-control initPop" style="width: 300px;" id="codeSetName">
                 </div>
             </div>
             <div class="form-group">
                 <label for="codeSetValue" class="col-sm-4 control-label">代码集标识：</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" style="width: 300px;" id="codeSetValue">
+                    <input type="text" class="form-control initPop" style="width: 300px;" id="codeSetValue">
                 </div>
             </div>
             <div class="form-group">
@@ -91,9 +95,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="remark" class="col-sm-4 control-label">状态：</label>
+                <label for="remark" class="col-sm-4 control-label">说明：</label>
                 <div class="col-sm-8">
-                    <textarea style="width: 300px;height: 60px;" class="form-control" id="remark"></textarea>
+                    <textarea style="width: 300px;height: 60px;" class="form-control initPop" id="remark"></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -115,6 +119,10 @@
 <script>
     $(function(){
         $("#addSave").click(function(){
+            var id = $("#id").val();
+            if (id == ''){
+                id=0;
+            }
             var codeSetName = $("#codeSetName").val();
             var codeSetValue = $("#codeSetValue").val();
             var seq = $("#seq").val();
@@ -125,6 +133,7 @@
                 type: 'post',
                 dataType: 'json',
                 data: {
+                    id:id,
                     codeSetName: codeSetName,
                     codeSetValue: codeSetValue,
                     seq: seq,
@@ -140,12 +149,56 @@
                 }
             })
         })
+        $("#addPop").click(function(){
+            initPop();
+        })
+        $(".update").click(function(){
+            initPop();
+            var id = $(this).parents("tr").children("td").eq(0).find("input").val();
+            var codeSetName = $(this).html();
+            var seq = $(this).parents("tr").children("td").eq(1).html();
+            var codeSetValue = $(this).parents("tr").children("td").eq(3).html();
+            var status = $(this).parents("tr").children("td").eq(4).html();
+            var remark = $(this).parents("tr").children("td").eq(5).html();
+            $("#id").val(id);
+            $("#codeSetName").val(codeSetName);
+            $("#codeSetValue").val(codeSetValue);
+            $("#seq").val(seq);
+            $("#status").val(status);
+            $("#remark").val(remark);
+        })
+        $(".delete").click(function(){
+            var id = $(this).parents("tr").children("td").eq(0).find("input").val();
+            console.log(id);
+            if (id==''){
+                alert("删除失败，请刷新页面");
+                return false;
+            }
+            var isOrNo = confirm("确认要删除？");
+            if (!isOrNo){
+                return false;
+            }
+            $.ajax({
+                url: '${ctx}/bs/deleteCodeSet.do',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    id:id
+                },
+                success: function(data){
+                    if (data.errorCode==1){
+                        alert(data.errorMessage);
+                    } else {
+                        location.href='${ctx}/bs/codeSet.do';
+                    }
+                }
+            })
+        })
     })
-    function goCodeItem(codeSet){
-        alert(codeSet);
-    }
-    function deleteCodeSet(id){
-        alert(id);
+    function initPop(){
+        $(".initPop").val("");
+        $("#seq").val(1);
+        $("#status").val(1);
     }
 </script>
 </html>
