@@ -28,7 +28,7 @@ public class CodeSet {
     /**
      * 说明
      */
-    @Lob
+    @Column(length = 2000)
     private String remark;
 
     /**

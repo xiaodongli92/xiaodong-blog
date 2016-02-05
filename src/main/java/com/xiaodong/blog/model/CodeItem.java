@@ -52,7 +52,7 @@ public class CodeItem {
     /**
      * 备注
      */
-    @Lob
+    @Column(length = 2000)
     private String remark;
 
     /**

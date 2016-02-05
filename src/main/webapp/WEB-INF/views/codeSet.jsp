@@ -5,7 +5,6 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/include/head.inc" %>
-    <link rel="stylesheet" href="${ctx}/static/css/user_info.css" type="text/css"/>
 </head>
 
 <body>
@@ -24,21 +23,29 @@
                 <button type="button" data-toggle="modal" data-target="#add" class="btn btn-default" style="float: right">添加代码集</button>
             </div>
         </div>
-        <table class="table table-hover table-bordered table-striped" style="width: 80%;margin-left: 10%">
+        <table class="table table-hover alignCenter" style="width: 100%">
             <tr>
-                <th>序号</th>
-                <th>代码集名称</th>
-                <th>代码集标识</th>
-                <th>状态</th>
-                <th>备注</th>
+                <th width="5" class="alignCenter"><input type="checkbox"></th>
+                <th width="5%" class="alignCenter">序号</th>
+                <th width="20%" class="alignCenter">代码集名称</th>
+                <th width="10%" class="alignCenter">代码集标识</th>
+                <th width="10%" class="alignCenter">状态</th>
+                <th width="30%" class="alignCenter">备注</th>
+                <th width="20%" class="alignCenter">操作</th>
             </tr>
             <c:forEach var="codeSet" items="${codeSets}">
                 <tr>
+                    <td><input type="checkbox"></td>
                     <td>${codeSet.seq}</td>
                     <td>${codeSet.codeSetName}</td>
                     <td>${codeSet.codeSetValue}</td>
-                    <td>${codeSet.remark}</td>
                     <td>${codeSet.status}</td>
+                    <td>${codeSet.remark}</td>
+                    <td>
+                        <a href="javascript:goCodeItem(1)">进入代码列表</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="javascript:deleteCodeSet(1)">删除</a>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
@@ -134,5 +141,11 @@
             })
         })
     })
+    function goCodeItem(codeSet){
+        alert(codeSet);
+    }
+    function deleteCodeSet(id){
+        alert(id);
+    }
 </script>
 </html>

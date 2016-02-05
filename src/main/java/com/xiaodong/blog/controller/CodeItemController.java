@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by xiaodong on 2016/2/2.
@@ -83,7 +84,9 @@ public class CodeItemController {
     @RequestMapping("codeSet")
     public String codeSet(HttpServletRequest request){
         try {
-            request.setAttribute("codeSets",codeItemService.getAllCodeSet());
+            List<CodeSet> codeSets = codeItemService.getAllCodeSet();
+            LOG.info("codeSets = {}",codeSets);
+            request.setAttribute("codeSets",codeSets);
             return "codeSet";
         } catch (Exception e){
             LOG.error("获取codeSet失败，",e);

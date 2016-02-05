@@ -6,6 +6,11 @@
 <head>
     <%@ include file="/WEB-INF/include/head.inc" %>
     <link rel="stylesheet" href="${ctx}/static/css/user_info.css" type="text/css"/>
+    <style>
+        .col-sm-9{
+            font-size: 18px;
+        }
+    </style>
 </head>
 
 <body>
