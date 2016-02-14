@@ -46,9 +46,9 @@ public class CodeItemServiceImpl implements CodeItemService {
 
     @Override
     public Map<String, String> getCountyMap(String cityCode) {
-        String cityCodeStart = getAreaCodeStartStr(cityCode,4);
-        String zxsCityCodeStart = getAreaCodeStartStr(cityCode,2);
-        List<AreaCode> areaCodes = areaCodeDAO.getCountyCode(cityCodeStart,zxsCityCodeStart);
+        boolean checkCity = "00".equals(StringUtils.substring(cityCode,2,4));
+        String cityCodeStart = getAreaCodeStartStr(cityCode,checkCity?2:4);
+        List<AreaCode> areaCodes = areaCodeDAO.getCountyCode(cityCodeStart);
         return CommonsUtils.getMapFromAreaList(areaCodes);
     }
 
