@@ -19,35 +19,39 @@
 
         <div class="panel panel-default">
             <div class="panel-heading" style="overflow:auto;">
-                <h4 style="float:left">字典配置</h4>
+                <h4 style="float:left">代码列表【${codeSet.codeSetName}】</h4>
                 <button type="button" id="addPop" data-toggle="modal" data-target="#add" class="btn btn-default" style="float: right">
-                    添加代码集
+                    添加代码
                 </button>
             </div>
         </div>
         <table class="table table-hover alignCenter" style="width: 100%">
             <tr>
-                <th width="5" class="alignCenter"><input type="checkbox"></th>
+                <th width="5%" class="alignCenter"><input type="checkbox"></th>
                 <th width="5%" class="alignCenter">序号</th>
-                <th width="20%" class="alignCenter">代码集名称</th>
-                <th width="10%" class="alignCenter">代码集标识</th>
-                <th width="10%" class="alignCenter">状态</th>
-                <th width="30%" class="alignCenter">备注</th>
-                <th width="20%" class="alignCenter">操作</th>
+                <th width="10%" class="alignCenter">上级代码</th>
+                <th width="15%" class="alignCenter">代码名称</th>
+                <th width="15%" class="alignCenter">代码名称(2)</th>
+                <th width="10%" class="alignCenter">代码值</th>
+                <th width="25%" class="alignCenter">备注</th>
+                <th width="5%" class="alignCenter">状态</th>
+                <th width="10%" class="alignCenter">操作</th>
             </tr>
-            <c:forEach var="codeSet" items="${codeSets}">
+            <input type="hidden" id="codeSetValue" value="${codeSet.codeSetValue}">
+            <c:forEach var="codeItem" items="${codeItems}">
                 <tr>
-                    <td><input type="checkbox" value="${codeSet.id}"></td>
-                    <td>${codeSet.seq}</td>
+                    <td><input type="checkbox" value="${codeItem.id}"></td>
+                    <td>${codeItem.seq}</td>
+                    <td>${codeItem.parentCode}</td>
                     <td>
-                        <a href class="update" data-toggle="modal" data-target="#add">${codeSet.codeSetName}</a>
+                        <a href class="update" data-toggle="modal" data-target="#add">${codeItem.codeName}</a>
                     </td>
-                    <td>${codeSet.codeSetValue}</td>
-                    <td>${codeSet.status}</td>
-                    <td>${codeSet.remark}</td>
+                    <td>${codeItem.codeName2}</td>
+                    <td>${codeItem.codeValue}</td>
+                    <td>${codeItem.remark}</td>
+                    <td>${codeItem.status==1?"启用":"停用"}</td>
                     <td>
-                        <a href="javascript:void(0)" class="detail">进入代码列表</a>
-                        <a href="javascript:void(0)" class="delete" style="margin-left: 20px;">删除</a>
+                        <a href="javascript:void(0)" class="delete">删除</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -63,20 +67,34 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title fydTitle" style="text-align: left;">添加代码集</h4>
+                <h4 class="modal-title fydTitle" style="text-align: left;">添加代码</h4>
             </div>
             <br>
             <input type="hidden" id="id" class="initPop">
             <div class="form-group">
-                <label for="codeSetName" class="col-sm-4 control-label">代码集名称：</label>
+                <label for="codeName" class="col-sm-4 control-label">代码名称：</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control initPop" style="width: 300px;" id="codeSetName">
+                    <input type="text" class="form-control initPop" style="width: 300px;" id="codeName">
                 </div>
             </div>
             <div class="form-group">
-                <label for="codeSetValue" class="col-sm-4 control-label">代码集标识：</label>
+                <label for="codeName2" class="col-sm-4 control-label">代码名称2：</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control initPop" style="width: 300px;" id="codeSetValue">
+                    <input type="text" class="form-control initPop" style="width: 300px;" id="codeName2">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="codeValue" class="col-sm-4 control-label">代码值：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control initPop" style="width: 300px;" id="codeValue">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="parentCode" class="col-sm-4 control-label">上级代码：</label>
+                <div class="col-sm-8">
+                    <select style="width: 300px;" class="form-control" id="parentCode">
+                        <option value="">请选择</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -123,19 +141,39 @@
             if (id == ''){
                 id=0;
             }
-            var codeSetName = $("#codeSetName").val();
-            var codeSetValue = $("#codeSetValue").val();
+            var codeSet = $("#codeSetValue").val();
+            if (codeSet == ''){
+                alert("获取代码集失败，请刷新页面");
+                return false;
+            }
+            var codeName = $("#codeName").val();
+            var codeName2 = $("#codeName2").val();
+            var codeValue = $("#codeValue").val();
+            var parentCode = $("#parentCode").val();
             var seq = $("#seq").val();
-            var status = $("#status").val();
             var remark = $("#remark").val();
+            var status = $("#status").val();
+            if (codeName==''){
+                alert("代码名称不能为空");
+                $("#codeName").focus();
+                return false;
+            }
+            if (codeValue==''){
+                alert("代码值不能为空");
+                $("#codeValue").focus();
+                return false;
+            }
             $.ajax({
-                url: '${ctx}/bs/saveCodeSet.do',
+                url: '${ctx}/bs/saveCodeItem.do',
                 type: 'post',
                 dataType: 'json',
                 data: {
                     id:id,
-                    codeSetName: codeSetName,
-                    codeSetValue: codeSetValue,
+                    codeSet: codeSet,
+                    parentCode: parentCode,
+                    codeName: codeName,
+                    codeName2: codeName2,
+                    codeValue: codeValue,
                     seq: seq,
                     status: status,
                     remark: remark
@@ -144,7 +182,7 @@
                     if (data.errorCode==1){
                         alert(data.errorMessage);
                     } else {
-                        location.href='${ctx}/bs/codeSet.do';
+                        location.reload();
                     }
                 }
             })
@@ -155,17 +193,21 @@
         $(".update").click(function(){
             initPop();
             var id = $(this).parents("tr").children("td").eq(0).find("input").val();
-            var codeSetName = $(this).html();
             var seq = $(this).parents("tr").children("td").eq(1).html();
-            var codeSetValue = $(this).parents("tr").children("td").eq(3).html();
-            var status = $(this).parents("tr").children("td").eq(4).html();
-            var remark = $(this).parents("tr").children("td").eq(5).html();
+            var parentCode = $(this).parents("tr").children("td").eq(2).html();
+            var codeName = $(this).html();
+            var codeName2 = $(this).parents("tr").children("td").eq(4).html();
+            var codeValue = $(this).parents("tr").children("td").eq(5).html();
+            var remark = $(this).parents("tr").children("td").eq(6).html();
+            var status = $(this).parents("tr").children("td").eq(7).html();
             $("#id").val(id);
-            $("#codeSetName").val(codeSetName);
-            $("#codeSetValue").val(codeSetValue);
             $("#seq").val(seq);
-            $("#status").val(status);
+            $("#parentCode").val(parentCode);
+            $("#codeName").val(codeName);
+            $("#codeName2").val(codeName2);
+            $("#codeValue").val(codeValue);
             $("#remark").val(remark);
+            $("#status").val(status=='启用'?1:0);
         })
         $(".delete").click(function(){
             var id = $(this).parents("tr").children("td").eq(0).find("input").val();
@@ -179,7 +221,7 @@
                 return false;
             }
             $.ajax({
-                url: '${ctx}/bs/deleteCodeSet.do',
+                url: '${ctx}/bs/deleteCodeItem.do',
                 type: 'post',
                 dataType: 'json',
                 data: {
@@ -189,18 +231,10 @@
                     if (data.errorCode==1){
                         alert(data.errorMessage);
                     } else {
-                        location.href='${ctx}/bs/codeSet.do';
+                        location.reload();
                     }
                 }
             })
-        })
-        $(".detail").click(function(){
-            var id = $(this).parents("tr").children("td").eq(0).find("input").val();
-            if (id==''){
-                alert("进入代码列表失败，请刷新页面");
-                return false;
-            }
-            location.href='${ctx}/bs/codeItem.do?id='+id;
         })
     })
     function initPop(){

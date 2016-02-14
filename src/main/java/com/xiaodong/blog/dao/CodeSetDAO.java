@@ -13,4 +13,7 @@ public interface CodeSetDAO extends CrudRepository<CodeSet,String> {
 
     @Query(value = "SELECT * FROM code_set order by seq asc",nativeQuery = true)
     List<CodeSet> getAll();
+
+    @Query(value = "SELECT * FROM code_set where id=?",nativeQuery = true)
+    CodeSet get(long id);
 }

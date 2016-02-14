@@ -12,6 +12,5 @@ import java.util.List;
 public interface CodeItemDAO extends CrudRepository<CodeItem,String> {
 
     @Query(value = "SELECT * FROM code_item where code_set=?",nativeQuery = true)
-    List<CodeItem> getByCodeSetValue(String code);
-
+    List<CodeItem> getByCodeSetValue(String codeSetValue);
 }

@@ -1,8 +1,10 @@
 package com.xiaodong.blog.controller;
 
+import com.xiaodong.blog.model.CodeItem;
 import com.xiaodong.blog.model.CodeSet;
 import com.xiaodong.blog.service.inter.CodeItemService;
 import com.xiaodong.blog.utils.JsonResponseUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +92,8 @@ public class CodeItemController {
             return "codeSet";
         } catch (Exception e){
             LOG.error("获取codeSet失败，",e);
-            return JsonResponseUtils.badResult(e.getMessage());
+            request.setAttribute("errMsg",e.getMessage());
+            return "error";
         }
     }
 
@@ -125,4 +128,52 @@ public class CodeItemController {
         }
     }
 
+    @RequestMapping("codeItem")
+    public String codeItem(@Param("id")Long id,HttpServletRequest request){
+        try {
+            if (id == null){
+                return JsonResponseUtils.badResult("字符集无效");
+            }
+            CodeSet codeSet = codeItemService.get(id);
+            List<CodeItem> codeItems = codeItemService.getCodeItemByCodeSet(codeSet.getCodeSetValue());
+            request.setAttribute("codeItems",codeItems);
+            request.setAttribute("codeSet",codeSet);
+            return "codeItem";
+        } catch (Exception e){
+            LOG.error("获取codeItem失败",e);
+            request.setAttribute("errMsg",e.getMessage());
+            return "error";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("saveCodeItem")
+    public String saveCodeItem(CodeItem codeItem){
+        try {
+            LOG.info("codeItem = {}",codeItem);
+            String errMsg = codeItemService.saveCodeItem(codeItem);
+            if (errMsg != null){
+                return JsonResponseUtils.badResult(errMsg);
+            }
+            return JsonResponseUtils.ok();
+        } catch (Exception e) {
+            LOG.error("存储codeItem失败",e);
+            return JsonResponseUtils.badResult(e.getMessage());
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("deleteCodeItem")
+    public String deleteCodeItem(@Param("id")Long id){
+        try {
+            if (id == null){
+                return JsonResponseUtils.badResult("获取信息失败，请刷新页面");
+            }
+            codeItemService.deleteCodeItem(id);
+            return JsonResponseUtils.ok();
+        } catch (Exception e) {
+            LOG.error("删除codeItem失败，",e);
+            return JsonResponseUtils.badResult(e.getMessage());
+        }
+    }
 }

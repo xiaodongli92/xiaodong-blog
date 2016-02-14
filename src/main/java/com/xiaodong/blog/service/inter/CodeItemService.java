@@ -28,6 +28,12 @@ public interface CodeItemService {
 
     void deleteCodeSet(long id);
 
+    CodeSet get(long id);
+
     List<CodeItem> getCodeItemByCodeSet(String codeSetValue);
+
+    String saveCodeItem(CodeItem codeItem);
+
+    void deleteCodeItem(long id);
 
 }

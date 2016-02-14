@@ -8,7 +8,6 @@ import com.xiaodong.blog.model.CodeItem;
 import com.xiaodong.blog.model.CodeSet;
 import com.xiaodong.blog.service.inter.CodeItemService;
 import com.xiaodong.blog.utils.CommonsUtils;
-import com.xiaodong.blog.utils.JsonResponseUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,11 +89,16 @@ public class CodeItemServiceImpl implements CodeItemService {
     }
 
     @Override
+    public CodeSet get(long id) {
+        return codeSetDAO.get(id);
+    }
+
+    @Override
     public List<CodeItem> getCodeItemByCodeSet(String codeSetValue) {
         return codeItemDAO.getByCodeSetValue(codeSetValue);
     }
 
-    public static String validateCodeSet(CodeSet codeSet){
+    private static String validateCodeSet(CodeSet codeSet){
         if (StringUtils.isBlank(codeSet.getCodeSetName())){
             return "字典名称不能为空";
         }
@@ -105,5 +109,35 @@ public class CodeItemServiceImpl implements CodeItemService {
             return "请选择字典序号";
         }
         return null;
+    }
+
+    @Override
+    public String saveCodeItem(CodeItem codeItem) {
+        String errMsg = validateCodeItem(codeItem);
+        if (errMsg != null) {
+            return errMsg;
+        }
+        codeItemDAO.save(codeItem);
+        return null;
+    }
+
+    private static String validateCodeItem(CodeItem codeItem){
+        if (StringUtils.isBlank(codeItem.getCodeName())){
+            return "代码名称不能为空";
+        }
+        if (StringUtils.isBlank(codeItem.getCodeValue())){
+            return "代码值不能为空";
+        }
+        if (codeItem.getSeq()==0){
+            return "请选择序号";
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteCodeItem(long id) {
+        CodeItem codeItem = new CodeItem();
+        codeItem.setId(id);
+        codeItemDAO.delete(codeItem);
     }
 }
