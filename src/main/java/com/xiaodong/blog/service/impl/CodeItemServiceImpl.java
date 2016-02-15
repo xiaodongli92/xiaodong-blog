@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -139,5 +140,19 @@ public class CodeItemServiceImpl implements CodeItemService {
         CodeItem codeItem = new CodeItem();
         codeItem.setId(id);
         codeItemDAO.delete(codeItem);
+    }
+
+    @Override
+    public Map<String, String> parentCodeMap(String codeSetValue) {
+        List<CodeItem> codeItems = codeItemDAO.getByCodeSetValue(codeSetValue);
+        return getParentCodeMap(codeItems);
+    }
+
+    private static Map<String,String> getParentCodeMap(List<CodeItem> codeItems){
+        Map<String,String> map = new HashMap<String, String>();
+        for (CodeItem codeItem:codeItems){
+            map.put(codeItem.getCodeValue(),codeItem.getCodeName());
+        }
+        return map;
     }
 }

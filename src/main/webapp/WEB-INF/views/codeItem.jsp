@@ -135,13 +135,14 @@
 <!-- 弹窗end -->
 </body>
 <script>
+var parentMap;
     $(function(){
+        var codeSet = $("#codeSetValue").val();
         $("#addSave").click(function(){
             var id = $("#id").val();
             if (id == ''){
                 id=0;
             }
-            var codeSet = $("#codeSetValue").val();
             if (codeSet == ''){
                 alert("获取代码集失败，请刷新页面");
                 return false;
@@ -189,6 +190,7 @@
         })
         $("#addPop").click(function(){
             initPop();
+            initSelect(codeSet,"");
         })
         $(".update").click(function(){
             initPop();
@@ -208,6 +210,7 @@
             $("#codeValue").val(codeValue);
             $("#remark").val(remark);
             $("#status").val(status=='启用'?1:0);
+            initSelect(codeSet,codeValue);
         })
         $(".delete").click(function(){
             var id = $(this).parents("tr").children("td").eq(0).find("input").val();
@@ -241,6 +244,29 @@
         $(".initPop").val("");
         $("#seq").val(1);
         $("#status").val(1);
+    }
+    function initSelect(codeSet,codeValue){
+        $("#parentCode").html("<option value=''>请选择</option>")
+        $.ajax({
+            url: '${ctx}/bs/parentCodeMap.do',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                codeSetValue:codeSet
+            },
+            success: function(data){
+                if (data.errorCode==1){
+                    alert(data.errorMessage);
+                } else {
+                    parentMap = data.data;
+                    $.each(parentMap, function (key, values) {
+                        if (key!=codeValue){
+                            $("#parentCode").append("<option value='" + key + "'>" + values + "</option>");
+                        }
+                    });
+                }
+            }
+        })
     }
 </script>
 </html>
