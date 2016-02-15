@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class PassportInterceptor implements HandlerInterceptor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PassportInterceptor.class);
+//    private static final Logger LOG = LoggerFactory.getLogger(PassportInterceptor.class);
 
     private List<String> loginUrl = Arrays.asList(new String[]{"index.do","main.do","userInfo.do","saveUserInfo.do"});
 
@@ -26,14 +26,14 @@ public class PassportInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestUri = request.getRequestURI();
         String uri = StringUtils.substringAfterLast(requestUri,"/");
-        LOG.info("ip={},uri={}",request.getRemoteAddr(),uri);
+//        LOG.info("ip={},uri={}",request.getRemoteAddr(),uri);
         if (this.loginUrl.contains(uri)){
             Long userId = (Long) request.getSession().getAttribute(AppConstants.SESSION_USER_ID);
             if (userId==null){
                 response.sendRedirect(request.getContextPath()+"/goSignIn.do");
                 return false;
             }
-            LOG.info("userId={}",userId);
+//            LOG.info("userId={}",userId);
         }
         request.setAttribute("lastUri",uri);
         return true;

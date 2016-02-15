@@ -143,7 +143,7 @@ public class CodeItemServiceImpl implements CodeItemService {
     }
 
     @Override
-    public Map<String, String> parentCodeMap(String codeSetValue) {
+    public Map<String, String> codeItemMap(String codeSetValue) {
         List<CodeItem> codeItems = codeItemDAO.getByCodeSetValue(codeSetValue);
         return getParentCodeMap(codeItems);
     }

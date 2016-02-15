@@ -44,7 +44,8 @@
                 </tr>
                 <tr>
                     <td class="left_tr">生日</td>
-                    <td><input type="text" class="form-control my-date" style="width: 300px;" id="birthday" value="${userInfo.birthday}"></td>
+                    <td><input type="text" class="form-control my-date" style="width: 300px;" id="birthday"
+                               value=<fmt:formatDate value="${userInfo.birthday}" pattern="yyyy-MM-dd HH:mm:ss"/>></td>
                 </tr>
                 <tr>
                     <td class="left_tr">邮箱</td>
@@ -52,7 +53,7 @@
                 </tr>
                 <tr>
                     <td class="left_tr">手机号</td>
-                    <td><input type="text" class="form-control" style="width: 300px;" id="mobile"></td>
+                    <td><input type="text" class="form-control" style="width: 300px;" id="mobile" value="${user.mobile}"></td>
                 </tr>
                 <tr>
                     <td class="left_tr">注册时间</td>
@@ -62,37 +63,37 @@
                 <tr>
                     <td class="left_tr">所在地</td>
                     <td>
-                        <select id="provinceCode" class="form-control" style="width: 150px;float: left">
-                            <option>省份</option>
+                        <select id="provinceCode" class="form-control" style="width: 150px;float: left" model-value="${userInfo.provinceCode}">
+                            <option value="">省份</option>
                         </select>
-                        <select id="cityCode" class="form-control" style="width: 150px;float: left;height: 100%;">
-                            <option>城市</option>
+                        <select id="cityCode" class="form-control" style="width: 150px;float: left;height: 100%;" model-value="${userInfo.cityCode}">
+                            <option value="">城市</option>
                         </select>
-                        <select id="countyCode" class="form-control" style="width: 150px;float: left">
-                            <option>区县</option>
+                        <select id="countyCode" class="form-control" style="width: 150px;float: left" model-value="${userInfo.countyCode}">
+                            <option value="">区县</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td class="left_tr">性别</td>
                     <td>
-                        <input type="radio" name="gender" value="1" checked>男
+                        <input type="radio" name="gender" value="1" ${userInfo.gender==1?'checked':''}>男
                         &nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="gender" value="2">女
+                        <input type="radio" name="gender" value="2" ${userInfo.gender==2?'checked':''}>女
                     </td>
                 </tr>
                 <tr>
                     <td class="left_tr">性取向</td>
                     <td>
-                        <input type="radio" name="sexualOrientation" value="1">男
+                        <input type="radio" name="sexualOrientation" value="1" ${userInfo.sexualOrientation==1?'checked':''}>男
                         &nbsp;&nbsp;&nbsp;
-                        <input type="radio" name="sexualOrientation" value="2" checked>女
+                        <input type="radio" name="sexualOrientation" value="2" ${userInfo.sexualOrientation==2?'checked':''}>女
                     </td>
                 </tr>
                 <tr>
                     <td class="left_tr">感情状况</td>
                     <td>
-                        <select id="maritalStatus" class="form-control" style="width: 300px;text-align: center">
+                        <select id="maritalStatus" class="form-control" style="width: 300px;text-align: center" model-value="${userInfo.maritalStatus}">
                             <option value="">请选择</option>
                         </select>
                     </td>
@@ -100,7 +101,7 @@
                 <tr>
                     <td class="left_tr">血型</td>
                     <td>
-                        <select id="bloodType" class="form-control" style="width: 300px;text-align: center">
+                        <select id="bloodType" class="form-control" style="width: 300px;text-align: center" model-value="${userInfo.bloodType}">
                             <option value="">请选择</option>
                             <option value="1">A型</option>
                             <option value="2">B型</option>
@@ -112,7 +113,7 @@
                 <tr>
                     <td class="left_tr">简介</td>
                     <td>
-                        <textarea type="text" class="form-control" style="width: 300px;height: 70px;" id="profile"></textarea>
+                        <textarea type="text" class="form-control" style="width: 300px;height: 70px;" id="profile">${userInfo.profile}</textarea>
                     </td>
                 </tr>
                 <tr>
@@ -130,6 +131,85 @@
 </body>
 <script>
     $(function(){
+        initPage();
+        $(".my-date").datepicker({
+            format: 'yyyy-mm-dd',
+            weekStart: 1,
+            autoclose: true,
+            todayBtn: 'linked',
+            language: 'zh-CN'
+        });
+        $("#provinceCode").on('change',function(){
+            var provinceCode = $("#provinceCode").val();
+            initCitySelect(provinceCode);
+        })
+        $("#cityCode").on('change',function(){
+            var cityCode = $("#cityCode").val();
+            initCountySelect(cityCode);
+        })
+        $("#save").bind('click',function(){
+            saveUser();
+            saveUserInfo();
+        })
+    })
+    function initPage(){
+        var provinceCode = $("#provinceCode").attr('model-value');
+        var cityCode = $("#cityCode").attr("model-value");
+        var countyCode = $("#countyCode").attr("model-value");
+        initProvinceSelect(provinceCode);
+        initCitySelect(provinceCode,cityCode);
+        initCountySelect(cityCode,countyCode);
+        initCodeItemMap();
+        var bloodType = $("#bloodType").attr('model-value');
+        $("#bloodType").val(bloodType);
+    }
+    function initCountySelect(cityCode,countyCode){
+        $("#countyCode").html("<option value=''>区县</option>");
+        $.ajax({
+            url: '${ctx}/bs/getCountyMap.do',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                cityCode: cityCode
+            },
+            success: function(data){
+                if (data.errorCode==1){
+                    alert(data.errorMessage);
+                } else {
+                    var map = data.data;
+                    var checkEq;
+                    $.each(map, function (key, values) {
+                        checkEq = (key==countyCode);
+                        $("#countyCode").append("<option value='" + key + "' "+(checkEq?"selected":"")+">" + values + "</option>");
+                    });
+                }
+            }
+        })
+    }
+    function initCitySelect(provinceCode,cityCode){
+        $("#cityCode").html("<option value=''>城市</option>");
+        $.ajax({
+            url: '${ctx}/bs/getCityMap.do',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                provinceCode: provinceCode
+            },
+            success: function(data){
+                if (data.errorCode==1){
+                    alert(data.errorMessage);
+                } else {
+                    var map = data.data;
+                    var checkEq;
+                    $.each(map, function (key, values) {
+                        checkEq = (key==cityCode);
+                        $("#cityCode").append("<option value='" + key + "' "+(checkEq?"selected":"")+">" + values + "</option>");
+                    });
+                }
+            }
+        })
+    }
+    function initProvinceSelect(provinceCode){
         $.ajax({
             url: '${ctx}/bs/getProvinceMap.do',
             type: 'post',
@@ -139,86 +219,92 @@
                     alert(data.errorMessage);
                 } else {
                     var map = data.data;
+                    var checkEq;
                     $.each(map, function (key, values) {
-                        $("#provinceCode").append("<option value='" + key + "'>" + values + "</option>");
+                        checkEq = (key==provinceCode);
+                        $("#provinceCode").append("<option value='"+key+"' "+(checkEq?"selected":"")+">" + values + "</option>");
                     });
                 }
             }
         })
-        $(".my-date").datepicker({
-            format: 'yyyy-mm-dd',
-            weekStart: 1,
-            autoclose: true,
-            todayBtn: 'linked',
-            language: 'zh-CN'
+    }
+    function initCodeItemMap(){
+        var maritalStatus = $("#maritalStatus").attr("model-value");
+        $.ajax({
+            url: '${ctx}/bs/codeItemMap.do',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                codeSetValue:'maritalStatus'
+            },
+            success: function(data){
+                if (data.errorCode==1){
+                    alert(data.errorMessage);
+                } else {
+                    var maritalStatusMap = data.data;
+                    var checkEq;
+                    $.each(maritalStatusMap, function (key, values) {
+                        checkEq = (key==maritalStatus);
+                        $("#maritalStatus").append("<option value='"+key+"' "+(checkEq?"selected":"")+">" + values + "</option>");
+                    });
+                }
+            }
+        })
+    }
+    function saveUser(){
+        var name = $("#name").val();
+        var realName = $("#realName").val();
+        var mobile = $("#mobile").val();
+        $.ajax({
+            url:'${ctx}/user/saveUser.do',
+            type:'post',
+            dataType:'json',
+            data:{
+                name:name,
+                mobile:mobile,
+                realName:realName
+            },
+            success:function(data){
+                if (data.errorCode==1){
+                    alert(data.errorMessage);
+                }
+            }
         });
-        $("#button").click(function(){
-            var userId = $("userId").val();
-            var userInfoId = $("userInfoId").val();
-            var name = $("#name").val();
-        })
-        $("#provinceCode").on('change',function(){
-            $("#cityCode").html("<option value=''>城市</option>");
-            var provinceCode = $("#provinceCode").val();
-            $.ajax({
-                url: '${ctx}/bs/getCityMap.do',
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    provinceCode: provinceCode
-                },
-                success: function(data){
-                    if (data.errorCode==1){
-                        alert(data.errorMessage);
-                    } else {
-                        var map = data.data;
-                        console.log(map);
-                        $.each(map, function (key, values) {
-                            $("#cityCode").append("<option value='" + key + "'>" + values + "</option>");
-                        });
-                    }
+    }
+    function saveUserInfo(){
+        var birthday = $("#birthday").val();
+        var registerDate = $("#registerDate").val();
+        var provinceCode = $("#provinceCode").val();
+        var cityCode = $("#cityCode").val();
+        var countyCode = $("#countyCode").val();
+        var gender = $("input[name=gender]:checked").val();
+        var sexualOrientation = $("input[name=sexualOrientation]:checked").val();
+        var maritalStatus = $("#maritalStatus").val();
+        var bloodType = $("#bloodType").val();
+        var profile = $("#profile").val();
+        $.ajax({
+            url:'${ctx}/user/saveUserInfo.do',
+            type:'post',
+            dataType:'json',
+            data:{
+                provinceCode:provinceCode,
+                cityCode:cityCode,
+                countyCode:countyCode,
+                gender:gender,
+                sexualOrientation:sexualOrientation,
+                maritalStatus:maritalStatus,
+                birthday:birthday,
+                bloodType:bloodType,
+                profile:profile
+            },
+            success:function(data){
+                if (data.errorCode==1){
+                    alert(data.errorMessage);
+                }else{
+                    location.reload();
                 }
-            })
+            }
         })
-        $("#cityCode").on('change',function(){
-            $("#countyCode").html("<option value=''>区县</option>");
-            var cityCode = $("#cityCode").val();
-            $.ajax({
-                url: '${ctx}/bs/getCountyMap.do',
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    cityCode: cityCode
-                },
-                success: function(data){
-                    if (data.errorCode==1){
-                        alert(data.errorMessage);
-                    } else {
-                        var map = data.data;
-                        console.log(map);
-                        $.each(map, function (key, values) {
-                            $("#countyCode").append("<option value='" + key + "'>" + values + "</option>");
-                        });
-                    }
-                }
-            })
-        })
-        $("#save").click(function(){
-            var name = $("#name").val();
-            var realName = $("#realName").val();
-            var birthday = $("#birthday").val();
-            var email = $("#email").val();
-            var mobile = $("#mobile").val();
-            var registerDate = $("#registerDate").val();
-            var provinceCode = $("#provinceCode").val();
-            var cityCode = $("#cityCode").val();
-            var countyCode = $("#countyCode").val();
-            var gender = $("[name=gender]:radio").val();
-            var sexualOrientation = $("[name=sexualOrientation]:radio").val();
-            var maritalStatus = $("maritalStatus").val();
-            var bloodType = $("#bloodType").val();
-            var profile = $("#profile").val();
-        })
-    })
+    }
 </script>
 </html>

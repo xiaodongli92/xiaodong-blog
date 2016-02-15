@@ -179,13 +179,13 @@ public class CodeItemController {
     }
 
     @ResponseBody
-    @RequestMapping("parentCodeMap")
+    @RequestMapping("codeItemMap")
     public String parentCodeMap(@Param("codeSetValue")String codeSetValue){
         try {
             if (StringUtils.isBlank(codeSetValue)){
                 return JsonResponseUtils.badResult("获取信息失败，请刷新页面");
             }
-            Map<String,String> map = codeItemService.parentCodeMap(codeSetValue);
+            Map<String,String> map = codeItemService.codeItemMap(codeSetValue);
             return JsonResponseUtils.ok(map);
         } catch (Exception e) {
             LOG.error("获取parentCodeMap失败",e);

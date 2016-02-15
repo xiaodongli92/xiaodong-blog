@@ -261,7 +261,7 @@ var parentMap;
     function initSelect(codeSet,codeValue){
         $("#parentCode").html("<option value=''>请选择</option>")
         $.ajax({
-            url: '${ctx}/bs/parentCodeMap.do',
+            url: '${ctx}/bs/codeItemMap.do',
             type: 'post',
             dataType: 'json',
             data: {

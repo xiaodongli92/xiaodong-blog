@@ -47,7 +47,6 @@ public class PassportController {
     @RequestMapping("signIn")
     public String signIn(User user,HttpServletRequest request){
         try {
-            LOG.info("{}",user);
             String errMsg = passportService.signIn(user);
             if (errMsg!=null){
                 return JsonResponseUtils.badResult(errMsg);

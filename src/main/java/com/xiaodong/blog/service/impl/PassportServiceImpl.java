@@ -7,6 +7,8 @@ import com.xiaodong.blog.model.User;
 import com.xiaodong.blog.model.UserInfo;
 import com.xiaodong.blog.service.inter.PassportService;
 import com.xiaodong.blog.utils.ValidateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PassportServiceImpl implements PassportService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PassportServiceImpl.class);
 
     @Autowired
     private PassportDAO passportDAO;
@@ -57,7 +61,12 @@ public class PassportServiceImpl implements PassportService {
 
     @Override
     public User update(User user) {
-        return passportDAO.save(user);
+        User oldUser = passportDAO.getUserById(user.getId());
+        oldUser.setName(user.getName());
+        oldUser.setRealName(user.getRealName());
+        oldUser.setMobile(user.getMobile());
+        LOG.info("update user {}",oldUser);
+        return passportDAO.save(oldUser);
     }
 
     @Override
@@ -71,7 +80,32 @@ public class PassportServiceImpl implements PassportService {
     }
 
     @Override
-    public UserInfo updateUserInfo(UserInfo userInfo) {
-        return userInfoDAO.save(userInfo);
+    public String updateUserInfo(UserInfo userInfo) {
+        User user = passportDAO.getUserById(userInfo.getUserId());
+        if (user == null) {
+            return "不存在这个用户";
+        }
+        UserInfo oldUserInfo = userInfoDAO.getUserInfoByUserId(userInfo.getUserId());
+        oldUserInfo = initUpdateUserInfo(oldUserInfo,userInfo);
+        LOG.info("update userInfo {}",oldUserInfo);
+        userInfoDAO.save(oldUserInfo);
+        return null;
+    }
+
+    private static UserInfo initUpdateUserInfo(UserInfo oldUserInfo,UserInfo userInfo){
+        if (oldUserInfo == null){//第一次保存个人信息
+            oldUserInfo = new UserInfo();
+            oldUserInfo.setUserId(userInfo.getUserId());
+        }
+        oldUserInfo.setProvinceCode(userInfo.getProvinceCode());
+        oldUserInfo.setCityCode(userInfo.getCityCode());
+        oldUserInfo.setCountyCode(userInfo.getCountyCode());
+        oldUserInfo.setGender(userInfo.getGender());
+        oldUserInfo.setSexualOrientation(userInfo.getSexualOrientation());
+        oldUserInfo.setMaritalStatus(userInfo.getMaritalStatus());
+        oldUserInfo.setBirthday(userInfo.getBirthday());
+        oldUserInfo.setBloodType(userInfo.getBloodType());
+        oldUserInfo.setProfile(userInfo.getProfile());
+        return oldUserInfo;
     }
 }

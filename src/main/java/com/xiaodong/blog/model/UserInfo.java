@@ -1,5 +1,7 @@
 package com.xiaodong.blog.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -61,6 +63,7 @@ public class UserInfo {
     /**
      * 生日
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column
     private Date birthday;
 

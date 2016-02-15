@@ -56,5 +56,5 @@ public interface PassportService {
      * @param userInfo
      * @return
      */
-    UserInfo updateUserInfo(UserInfo userInfo);
+    String updateUserInfo(UserInfo userInfo);
 }

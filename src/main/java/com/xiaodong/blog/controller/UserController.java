@@ -44,10 +44,14 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("saveUserInfo")
-    public String saveUserInfo(UserInfo userInfo) {
+    public String saveUserInfo(UserInfo userInfo,HttpServletRequest request) {
         try {
             LOG.info("UserInfo{}",userInfo);
-            passportService.updateUserInfo(userInfo);
+            userInfo.setUserId(CommonsUtils.getUserIdFromSession(request));
+            String errMsg = passportService.updateUserInfo(userInfo);
+            if (errMsg!=null){
+                return JsonResponseUtils.badResult(errMsg);
+            }
             return JsonResponseUtils.ok();
         } catch (Exception e){
             LOG.error("保存用户个人资料失败",e);
@@ -57,10 +61,12 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("saveUser")
-    public String saveUser(User user){
+    public String saveUser(User user,HttpServletRequest request){
         try {
             LOG.info("user:{}",user);
+            user.setId(CommonsUtils.getUserIdFromSession(request));
             passportService.update(user);
+            CommonsUtils.setSession(request,user);
             return JsonResponseUtils.ok();
         } catch (Exception e){
             LOG.error("保存用户基本信息失败",e);

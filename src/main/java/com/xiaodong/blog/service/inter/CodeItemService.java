@@ -36,6 +36,6 @@ public interface CodeItemService {
 
     void deleteCodeItem(long id);
 
-    Map<String,String> parentCodeMap(String codeSetValue);
+    Map<String,String> codeItemMap(String codeSetValue);
 
 }
