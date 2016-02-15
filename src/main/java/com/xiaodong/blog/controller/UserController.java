@@ -1,15 +1,16 @@
 package com.xiaodong.blog.controller;
 
-import com.xiaodong.blog.commons.AppConstants;
 import com.xiaodong.blog.model.User;
 import com.xiaodong.blog.model.UserInfo;
 import com.xiaodong.blog.service.inter.PassportService;
 import com.xiaodong.blog.utils.CommonsUtils;
+import com.xiaodong.blog.utils.JsonResponseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,20 +28,43 @@ public class UserController {
 
     @RequestMapping("userInfo")
     public String userInfo(HttpServletRequest request){
-        Long userId = CommonsUtils.getUserIdFromSession(request);
-        User user = passportService.getUserById(userId);
-        UserInfo userInfo = passportService.getUserInfoByUserId(userId);
-        request.setAttribute("user",user);
-        request.setAttribute("userInfo",userInfo);
-        return "userInfo";
+        try {
+            Long userId = CommonsUtils.getUserIdFromSession(request);
+            User user = passportService.getUserById(userId);
+            UserInfo userInfo = passportService.getUserInfoByUserId(userId);
+            request.setAttribute("user",user);
+            request.setAttribute("userInfo",userInfo);
+            return "userInfo";
+        } catch (Exception e){
+            LOG.error("获取用户信息失败",e);
+            request.setAttribute("errMsg",e.getMessage());
+            return "error";
+        }
     }
 
+    @ResponseBody
     @RequestMapping("saveUserInfo")
-    public String saveUserInfo(HttpServletRequest request,User user,UserInfo userInfo) {
-        LOG.info("User:{},\nUserInfo{}",user,userInfo);
-        passportService.update(user);
-        passportService.updateUserInfo(userInfo);
-        request.getSession().setAttribute(AppConstants.SESSION_USER_NAME,user.getName());
-        return "redirect:/user/userInfo.do";
+    public String saveUserInfo(UserInfo userInfo) {
+        try {
+            LOG.info("UserInfo{}",userInfo);
+            passportService.updateUserInfo(userInfo);
+            return JsonResponseUtils.ok();
+        } catch (Exception e){
+            LOG.error("保存用户个人资料失败",e);
+            return JsonResponseUtils.badResult(e.getMessage());
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("saveUser")
+    public String saveUser(User user){
+        try {
+            LOG.info("user:{}",user);
+            passportService.update(user);
+            return JsonResponseUtils.ok();
+        } catch (Exception e){
+            LOG.error("保存用户基本信息失败",e);
+            return JsonResponseUtils.badResult(e.getMessage());
+        }
     }
 }

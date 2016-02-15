@@ -23,11 +23,14 @@
                 <button type="button" id="addPop" data-toggle="modal" data-target="#add" class="btn btn-default" style="float: right">
                     添加代码
                 </button>
+                <button type="button" id="goBack" class="btn btn-default" style="float: right">
+                    返回上级
+                </button>
             </div>
         </div>
         <table class="table table-hover alignCenter" style="width: 100%">
             <tr>
-                <th width="5%" class="alignCenter"><input type="checkbox"></th>
+                <th width="5%" class="alignCenter"><input id="all-checkbox" type="checkbox"></th>
                 <th width="5%" class="alignCenter">序号</th>
                 <th width="10%" class="alignCenter">上级代码</th>
                 <th width="15%" class="alignCenter">代码名称</th>
@@ -40,7 +43,7 @@
             <input type="hidden" id="codeSetValue" value="${codeSet.codeSetValue}">
             <c:forEach var="codeItem" items="${codeItems}">
                 <tr>
-                    <td><input type="checkbox" value="${codeItem.id}"></td>
+                    <td><input type="checkbox" class="my-checkbox" value="${codeItem.id}"></td>
                     <td>${codeItem.seq}</td>
                     <td>${codeItem.parentCode}</td>
                     <td>
@@ -192,6 +195,9 @@ var parentMap;
             initPop();
             initSelect(codeSet,"");
         })
+        $("#goBack").click(function(){
+            location.href='${ctx}/bs/codeSet.do'
+        })
         $(".update").click(function(){
             initPop();
             var id = $(this).parents("tr").children("td").eq(0).find("input").val();
@@ -238,6 +244,13 @@ var parentMap;
                     }
                 }
             })
+        })
+        $("#all-checkbox").bind("click",function(){
+            if ($(this).is(':checked')){
+                $(".my-checkbox").prop('checked',true);
+            }else{
+                $(".my-checkbox").prop('checked',false);
+            }
         })
     })
     function initPop(){

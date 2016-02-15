@@ -30,8 +30,6 @@
         </div>
         <form action="${ctx}/user/saveUserInfo.do" method="post" id="form">
             <table class="table table-hover table-bordered table-striped" style="width: 80%;margin-left: 10%">
-                <input type="hidden" id="userId" value="${user.id}">
-                <input type="hidden" id="userInfoId" value="${userInfo.id}">
                 <tr>
                     <th class="left_tr">类型</th>
                     <th>你的信息</th>
@@ -119,7 +117,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button type="button" id="button" class="btn btn-large btn-block" style="width: 300px;margin-left: 30%;">
+                        <button type="button" id="save" class="btn btn-large btn-block" style="width: 300px;margin-left: 30%;">
                             保存
                         </button>
                     </td>
@@ -204,6 +202,22 @@
                     }
                 }
             })
+        })
+        $("#save").click(function(){
+            var name = $("#name").val();
+            var realName = $("#realName").val();
+            var birthday = $("#birthday").val();
+            var email = $("#email").val();
+            var mobile = $("#mobile").val();
+            var registerDate = $("#registerDate").val();
+            var provinceCode = $("#provinceCode").val();
+            var cityCode = $("#cityCode").val();
+            var countyCode = $("#countyCode").val();
+            var gender = $("[name=gender]:radio").val();
+            var sexualOrientation = $("[name=sexualOrientation]:radio").val();
+            var maritalStatus = $("maritalStatus").val();
+            var bloodType = $("#bloodType").val();
+            var profile = $("#profile").val();
         })
     })
 </script>

@@ -19,7 +19,7 @@ public class UserInfo {
     /**
      * 用户ID
      */
-    @Column
+    @Column(unique = true)
     private long userId;
 
     /**

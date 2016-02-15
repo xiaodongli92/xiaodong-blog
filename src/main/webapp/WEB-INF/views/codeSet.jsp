@@ -27,7 +27,7 @@
         </div>
         <table class="table table-hover alignCenter" style="width: 100%">
             <tr>
-                <th width="5" class="alignCenter"><input type="checkbox"></th>
+                <th width="5" class="alignCenter"><input id="all-checkbox" type="checkbox"></th>
                 <th width="5%" class="alignCenter">序号</th>
                 <th width="20%" class="alignCenter">代码集名称</th>
                 <th width="10%" class="alignCenter">代码集标识</th>
@@ -37,7 +37,7 @@
             </tr>
             <c:forEach var="codeSet" items="${codeSets}">
                 <tr>
-                    <td><input type="checkbox" value="${codeSet.id}"></td>
+                    <td><input type="checkbox" value="${codeSet.id}" class="my-checkbox"></td>
                     <td>${codeSet.seq}</td>
                     <td>
                         <a href class="update" data-toggle="modal" data-target="#add">${codeSet.codeSetName}</a>
@@ -148,6 +148,13 @@
                     }
                 }
             })
+        })
+        $("#all-checkbox").bind("click",function(){
+            if ($(this).is(':checked')){
+                $(".my-checkbox").prop('checked',true);
+            }else{
+                $(".my-checkbox").prop('checked',false);
+            }
         })
         $("#addPop").click(function(){
             initPop();
