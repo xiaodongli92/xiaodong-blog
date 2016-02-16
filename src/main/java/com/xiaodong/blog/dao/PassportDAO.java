@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Created by xiaodong on 15/11/29.
  */
-public interface PassportDAO extends CrudRepository<User,String> {
+public interface PassportDAO extends CrudRepository<User,Long> {
 
     @Query(value = "SELECT * FROM user WHERE name=?",nativeQuery = true)
     User getUserByName(String name);

@@ -35,13 +35,13 @@ public class CodeSet {
      * 顺序号
      */
     @Column(length = 11,columnDefinition = "default 1")
-    private int seq;
+    private Integer seq;
 
     /**
      * 状态
      */
     @Column(length = 4,columnDefinition = "default 1")
-    private int status;
+    private Integer status;
 
     @Override
     public String toString() {
@@ -87,19 +87,19 @@ public class CodeSet {
         this.remark = remark;
     }
 
-    public int getSeq() {
+    public Integer getSeq() {
         return seq;
     }
 
-    public void setSeq(int seq) {
+    public void setSeq(Integer seq) {
         this.seq = seq;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

@@ -9,6 +9,8 @@ import com.xiaodong.blog.model.CodeSet;
 import com.xiaodong.blog.service.inter.CodeItemService;
 import com.xiaodong.blog.utils.CommonsUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ import java.util.Map;
  */
 @Service
 public class CodeItemServiceImpl implements CodeItemService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CodeItemServiceImpl.class);
 
     @Autowired
     private AreaCodeDAO areaCodeDAO;
@@ -78,15 +82,25 @@ public class CodeItemServiceImpl implements CodeItemService {
         if (errMsg != null){
             return errMsg;
         }
+        LOG.info("save codeSet={}",codeSet);
         codeSetDAO.save(codeSet);
         return null;
     }
 
     @Override
     public void deleteCodeSet(long id) {
-        CodeSet codeSet = new CodeSet();
-        codeSet.setId(id);
-        codeSetDAO.delete(codeSet);
+        List<CodeItem> codeItems = codeItemDAO.getByCodeSetValue(codeSetDAO.get(id).getCodeSetValue());
+        deleteCodeItems(codeItems);
+        LOG.info("delete CodeItems={}",codeItems);
+        codeSetDAO.delete(id);
+    }
+
+    private void deleteCodeItems(List<CodeItem> codeItems){
+        if (codeItems!=null){
+            for (CodeItem codeItem:codeItems){
+                codeItemDAO.delete(codeItem);
+            }
+        }
     }
 
     @Override
@@ -106,7 +120,7 @@ public class CodeItemServiceImpl implements CodeItemService {
         if (StringUtils.isBlank(codeSet.getCodeSetValue())){
             return "字典值不能为空";
         }
-        if (codeSet.getSeq()==0){
+        if (codeSet.getSeq()==null){
             return "请选择字典序号";
         }
         return null;
@@ -118,6 +132,7 @@ public class CodeItemServiceImpl implements CodeItemService {
         if (errMsg != null) {
             return errMsg;
         }
+        LOG.info("save codeItem={}",codeItem);
         codeItemDAO.save(codeItem);
         return null;
     }
@@ -129,7 +144,7 @@ public class CodeItemServiceImpl implements CodeItemService {
         if (StringUtils.isBlank(codeItem.getCodeValue())){
             return "代码值不能为空";
         }
-        if (codeItem.getSeq()==0){
+        if (codeItem.getSeq()==null){
             return "请选择序号";
         }
         return null;
@@ -137,9 +152,7 @@ public class CodeItemServiceImpl implements CodeItemService {
 
     @Override
     public void deleteCodeItem(long id) {
-        CodeItem codeItem = new CodeItem();
-        codeItem.setId(id);
-        codeItemDAO.delete(codeItem);
+        codeItemDAO.delete(id);
     }
 
     @Override

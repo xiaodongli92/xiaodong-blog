@@ -126,7 +126,7 @@ public class CodeItemController extends AbstractController {
             if (id==null || id.longValue()<1){
                 return JsonResponseUtils.badResult("id无效");
             }
-            codeItemService.deleteCodeSet(id.longValue());
+            codeItemService.deleteCodeSet(id);
             return JsonResponseUtils.ok();
         } catch (Exception e){
             LOG.error("删除codeSet失败，",e);
@@ -207,6 +207,7 @@ public class CodeItemController extends AbstractController {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("codeItemList",codeItemList);
             jsonObject.put("codeSetList",codeSetList);
+            LOG.info("开始生成文件fileName={}",fileName);
             exportService.exportCodeItem(getDownloadFile(request,fileName),jsonObject.toJSONString());
             return JsonResponseUtils.ok("fileName",fileName);
         } catch (Exception e){
@@ -217,9 +218,9 @@ public class CodeItemController extends AbstractController {
 
     @ResponseBody
     @RequestMapping("checkFile")
-    public String checkFile(@Param("fileName")String fileName){
+    public String checkFile(@Param("fileName")String fileName,HttpServletRequest request){
         try {
-            return checkFile(fileName);
+            return checkFile(getDownloadFile(request, fileName));
         } catch (Exception e){
             LOG.error("检查文件失败",e);
             return JsonResponseUtils.badResult(e.getMessage());
@@ -233,6 +234,7 @@ public class CodeItemController extends AbstractController {
             byte[] bytes = exportService.getFileDownload(getDownloadFile(request,fileName));
             response.setHeader("Content-Length", String.valueOf(bytes.length));
             response.setContentType("application/txt;charset=utf-8");
+            response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
             response.getOutputStream().write(bytes);
             response.flushBuffer();
         } catch (Exception e){

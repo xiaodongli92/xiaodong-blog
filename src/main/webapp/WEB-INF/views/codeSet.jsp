@@ -20,6 +20,9 @@
         <div class="panel panel-default">
             <div class="panel-heading" style="overflow:auto;">
                 <h4 style="float:left">字典配置</h4>
+                <button type="button" id="export" class="btn btn-default" style="float: right">
+                    导出json
+                </button>
                 <button type="button" id="addPop" data-toggle="modal" data-target="#add" class="btn btn-default" style="float: right">
                     添加代码集
                 </button>
@@ -115,6 +118,7 @@
     </div>
 </div>
 <!-- 弹窗end -->
+<div id="zhezhao" style="background-color:#7B7B7B;position:fixed;left:0;top:0;width:100%;height:100%;z-index:99999;display:none;opacity:0.50" ></div>
 </body>
 <script>
     $(function(){
@@ -149,6 +153,51 @@
                 }
             })
         })
+        var checkFileStatus = function (fileName) {
+            jQuery.ajax({
+                url:'${ctx}/bs/checkFile.do',
+                type:'GET',
+                dataType:'json',
+                data:{
+                    fileName:fileName,
+                    random: Math.random()
+                },
+                success : function(data) {
+                    console.log(data.errorCode);
+                    if(data.errorCode==0) {
+                        window.clearInterval(timer);
+                        $("#zhezhao").hide();
+                        location.href="${ctx}/bs/download.do?fileName="+fileName;
+                    } else {
+                        var timer = setTimeout(function(){
+                            checkFileStatus(fileName);
+                        },500)
+                    }
+                }
+            });
+        };
+        $("#export").click(function(){
+            $.ajax({
+                url: '${ctx}/bs/exportCodeItem.do',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    codeSets:""
+                },
+                success: function(data) {
+                    if (data.errorCode == 0) {
+                        alert("文件生成中，生成时间可能较长，请耐心等待");
+                        $("#zhezhao").show();
+                        checkFileStatus(data.data.fileName);
+                    } else {
+                        alert (data.errorMessage);
+                    }
+                },
+                error: function(){
+                    alert ("系统嗝屁了,请稍后再试");
+                }
+            });
+        })
         $("#all-checkbox").bind("click",function(){
             if ($(this).is(':checked')){
                 $(".my-checkbox").prop('checked',true);
@@ -181,7 +230,7 @@
                 alert("删除失败，请刷新页面");
                 return false;
             }
-            var isOrNo = confirm("确认要删除？");
+            var isOrNo = confirm("此代码集所有内容将会删除，确认要删除？");
             if (!isOrNo){
                 return false;
             }

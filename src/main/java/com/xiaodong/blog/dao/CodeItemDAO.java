@@ -9,11 +9,12 @@ import java.util.List;
 /**
  * Created by xiaodong on 2016/2/3.
  */
-public interface CodeItemDAO extends CrudRepository<CodeItem,String> {
+public interface CodeItemDAO extends CrudRepository<CodeItem,Long> {
 
     @Query(value = "SELECT * FROM code_item where code_set=?",nativeQuery = true)
     List<CodeItem> getByCodeSetValue(String codeSetValue);
 
-    @Query(value = "SELECT * FROM code_item where code_set in ?",nativeQuery = true)
+    @Query(value = "SELECT * FROM code_item where ''=?",nativeQuery = true)
     List<CodeItem> getByCodeSets(String codeSetValue);
+
 }

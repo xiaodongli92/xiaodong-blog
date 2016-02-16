@@ -28,7 +28,7 @@ public class AbstractController {
         return file;
     }
 
-    private String checkFile(File file){
+    protected String checkFile(File file){
         if (exportService.isDone(file) && file.exists()) {
             return JsonResponseUtils.ok();
         }

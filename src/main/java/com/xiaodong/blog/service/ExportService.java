@@ -19,8 +19,8 @@ public class ExportService {
     private ExecutorService executor = Executors.newFixedThreadPool(5);
     private FutureTask futureTask;
 
-    public boolean isDone(File fileName) {
-        return futureTask.isDone() && fileName.exists();
+    public boolean isDone(File file) {
+        return futureTask.isDone() && file.exists();
     }
 
     public byte[] getFileDownload(File file) throws IOException {
@@ -51,8 +51,7 @@ public class ExportService {
                 FileUtils.forceDelete(file); //如果文件存在首先删除
             }
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                writer.write(jsonString);
+                FileUtils.writeStringToFile(file,jsonString);
                 return Boolean.TRUE;
             } catch (Exception e) {
                 LOG.error("导出codeItem失败，{}", e);

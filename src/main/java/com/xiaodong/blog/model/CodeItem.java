@@ -47,7 +47,7 @@ public class CodeItem {
      * 顺序号
      */
     @Column(length = 11,columnDefinition = "default 1")
-    private int seq;
+    private Integer seq;
 
     /**
      * 备注
@@ -59,7 +59,7 @@ public class CodeItem {
      * 状态 1 启用 0 停用
      */
     @Column(length = 4,columnDefinition = "default 1")
-    private int status;
+    private Integer status;
 
     @Override
     public String toString() {
@@ -124,11 +124,11 @@ public class CodeItem {
         this.codeValue = codeValue;
     }
 
-    public int getSeq() {
+    public Integer getSeq() {
         return seq;
     }
 
-    public void setSeq(int seq) {
+    public void setSeq(Integer seq) {
         this.seq = seq;
     }
 
@@ -140,11 +140,11 @@ public class CodeItem {
         this.remark = remark;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }
