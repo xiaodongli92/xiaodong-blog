@@ -155,4 +155,14 @@ public class CodeItemServiceImpl implements CodeItemService {
         }
         return map;
     }
+
+    @Override
+    public List<CodeItem> getCodeItem(String codeSets) {
+        return codeItemDAO.getByCodeSets(codeSets);
+    }
+
+    @Override
+    public List<CodeSet> getCodeSet(String codeSets) {
+        return codeSetDAO.getByCodeSets(codeSets);
+    }
 }

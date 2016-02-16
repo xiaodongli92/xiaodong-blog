@@ -38,4 +38,7 @@ public interface CodeItemService {
 
     Map<String,String> codeItemMap(String codeSetValue);
 
+    List<CodeItem> getCodeItem(String codeSets);
+
+    List<CodeSet> getCodeSet(String codeSets);
 }

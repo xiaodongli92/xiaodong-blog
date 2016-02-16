@@ -46,7 +46,6 @@ public class UserController {
     @RequestMapping("saveUserInfo")
     public String saveUserInfo(UserInfo userInfo,HttpServletRequest request) {
         try {
-            LOG.info("UserInfo{}",userInfo);
             userInfo.setUserId(CommonsUtils.getUserIdFromSession(request));
             String errMsg = passportService.updateUserInfo(userInfo);
             if (errMsg!=null){
@@ -63,7 +62,6 @@ public class UserController {
     @RequestMapping("saveUser")
     public String saveUser(User user,HttpServletRequest request){
         try {
-            LOG.info("user:{}",user);
             user.setId(CommonsUtils.getUserIdFromSession(request));
             passportService.update(user);
             CommonsUtils.setSession(request,user);

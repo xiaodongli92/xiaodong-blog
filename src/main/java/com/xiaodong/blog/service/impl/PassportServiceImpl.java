@@ -65,7 +65,6 @@ public class PassportServiceImpl implements PassportService {
         oldUser.setName(user.getName());
         oldUser.setRealName(user.getRealName());
         oldUser.setMobile(user.getMobile());
-        LOG.info("update user {}",oldUser);
         return passportDAO.save(oldUser);
     }
 
@@ -87,7 +86,6 @@ public class PassportServiceImpl implements PassportService {
         }
         UserInfo oldUserInfo = userInfoDAO.getUserInfoByUserId(userInfo.getUserId());
         oldUserInfo = initUpdateUserInfo(oldUserInfo,userInfo);
-        LOG.info("update userInfo {}",oldUserInfo);
         userInfoDAO.save(oldUserInfo);
         return null;
     }

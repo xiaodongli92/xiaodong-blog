@@ -16,4 +16,7 @@ public interface CodeSetDAO extends CrudRepository<CodeSet,String> {
 
     @Query(value = "SELECT * FROM code_set where id=?",nativeQuery = true)
     CodeSet get(long id);
+
+    @Query(value = "SELECT * FROM code_set where code_set_value in ?",nativeQuery = true)
+    List<CodeSet> getByCodeSets(String codeSetValue);
 }
