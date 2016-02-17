@@ -3,6 +3,7 @@ package com.xiaodong.blog.service.inter;
 import com.xiaodong.blog.model.AreaCode;
 import com.xiaodong.blog.model.CodeItem;
 import com.xiaodong.blog.model.CodeSet;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -42,4 +43,6 @@ public interface CodeItemService {
     List<CodeItem> getCodeItem(Set<String> codeSets);
 
     List<CodeSet> getCodeSet(Set<String> codeSets);
+
+    String importCodeItem(MultipartFile file);
 }

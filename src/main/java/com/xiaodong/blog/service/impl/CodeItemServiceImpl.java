@@ -1,5 +1,8 @@
 package com.xiaodong.blog.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.xiaodong.blog.dao.AreaCodeDAO;
 import com.xiaodong.blog.dao.CodeItemDAO;
 import com.xiaodong.blog.dao.CodeSetDAO;
@@ -8,12 +11,17 @@ import com.xiaodong.blog.model.CodeItem;
 import com.xiaodong.blog.model.CodeSet;
 import com.xiaodong.blog.service.inter.CodeItemService;
 import com.xiaodong.blog.utils.CommonsUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -80,7 +88,6 @@ public class CodeItemServiceImpl implements CodeItemService {
         if (errMsg != null){
             return errMsg;
         }
-        LOG.info("save codeSet={}",codeSet);
         codeSetDAO.save(codeSet);
         return null;
     }
@@ -89,7 +96,6 @@ public class CodeItemServiceImpl implements CodeItemService {
     public void deleteCodeSet(long id) {
         List<CodeItem> codeItems = codeItemDAO.getByCodeSetValue(codeSetDAO.get(id).getCodeSetValue());
         deleteCodeItems(codeItems);
-        LOG.info("delete CodeItems={}",codeItems);
         codeSetDAO.delete(id);
     }
 
@@ -130,7 +136,6 @@ public class CodeItemServiceImpl implements CodeItemService {
         if (errMsg != null) {
             return errMsg;
         }
-        LOG.info("save codeItem={}",codeItem);
         codeItemDAO.save(codeItem);
         return null;
     }
@@ -175,5 +180,67 @@ public class CodeItemServiceImpl implements CodeItemService {
     @Override
     public List<CodeSet> getCodeSet(Set<String> codeSets) {
         return codeSetDAO.getByCodeSets(codeSets);
+    }
+
+    @Override
+    public String importCodeItem(MultipartFile file) {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null){
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            LOG.error("读取导入文件失败",e);
+            return e.getMessage();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e){
+                LOG.error("关闭 reader 失败",e);
+                return e.getMessage();
+            }
+        }
+        JSONObject jsonObject = JSON.parseObject(sb.toString());
+        List<CodeSet> codeSets = getCodeSetsFromJson(jsonObject.getJSONArray("codeSetList"));
+        List<CodeItem> codeItems = getCodeItemsFromJson(jsonObject.getJSONArray("codeItemList"));
+        codeItemDAO.save(codeItems);
+        codeSetDAO.save(codeSets);
+        return null;
+    }
+
+    private static List<CodeSet> getCodeSetsFromJson(JSONArray codeSetJsonArray){
+        List<CodeSet> codeSets = new ArrayList<>();
+        for (int i=0;i<codeSetJsonArray.size();i++){
+            JSONObject jsonObject = codeSetJsonArray.getJSONObject(i);
+            CodeSet codeSet = new CodeSet();
+            codeSet.setCodeSetName(jsonObject.getString("codeSetName"));
+            codeSet.setCodeSetValue(jsonObject.getString("codeSetValue"));
+            codeSet.setRemark(jsonObject.getString("remark"));
+            codeSet.setSeq(jsonObject.getInteger("seq"));
+            codeSet.setStatus(jsonObject.getInteger("status"));
+            codeSets.add(codeSet);
+        }
+        return codeSets;
+    }
+
+    private static List<CodeItem> getCodeItemsFromJson(JSONArray codeItemJsonArray){
+        List<CodeItem> codeItems = new ArrayList<>();
+        for (int i=0;i<codeItemJsonArray.size();i++){
+            JSONObject jsonObject = codeItemJsonArray.getJSONObject(i);
+            CodeItem codeItem = new CodeItem();
+            codeItem.setCodeSet(jsonObject.getString("codeSet"));
+            codeItem.setParentCode(jsonObject.getString("parentCode"));
+            codeItem.setCodeName(jsonObject.getString("codeName"));
+            codeItem.setCodeName2(jsonObject.getString("codeName2"));
+            codeItem.setCodeValue(jsonObject.getString("codeValue"));
+            codeItem.setSeq(jsonObject.getInteger("seq"));
+            codeItem.setRemark(jsonObject.getString("remark"));
+            codeItem.setStatus(jsonObject.getInteger("status"));
+            codeItems.add(codeItem);
+        }
+        return codeItems;
     }
 }

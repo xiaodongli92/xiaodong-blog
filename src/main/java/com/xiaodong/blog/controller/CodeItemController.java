@@ -15,6 +15,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -245,5 +246,22 @@ public class CodeItemController extends AbstractController {
             LOG.error("下载文件失败，",e);
         }
         return null;
+    }
+
+    @RequestMapping("importCodeItem")
+    public String importCodeItem(MultipartFile file,HttpServletRequest request){
+        try {
+            LOG.info("file = {}",file);
+            String errMsg = codeItemService.importCodeItem(file);
+            if (errMsg == null){
+                return "redirect:codeSet.do";
+            }
+            request.setAttribute("errMsg",errMsg);
+            return "error";
+        } catch (Exception e){
+            LOG.error("导入CodeItem失败，",e);
+            request.setAttribute("errMsg",e.getMessage());
+            return "error";
+        }
     }
 }

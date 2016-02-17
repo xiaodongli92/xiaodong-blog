@@ -20,6 +20,9 @@
         <div class="panel panel-default">
             <div class="panel-heading" style="overflow:auto;">
                 <h4 style="float:left">字典配置</h4>
+                <button type="button" id="importPop" data-toggle="modal" data-target="#import" class="btn btn-default" style="float: right">
+                    导入json
+                </button>
                 <button type="button" id="export" class="btn btn-default" style="float: right">
                     导出json
                 </button>
@@ -117,6 +120,33 @@
         </div>
     </div>
 </div>
+<div class="modal fade form-horizontal" id="import" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title fydTitle" style="text-align: left;">导入代码集</h4>
+            </div>
+            <br><br><br>
+            <form method="post" enctype="multipart/form-data" id="import-form" action="${ctx}/bs/importCodeItem.do">
+                <div class="form-group">
+                    <label for="file" class="col-sm-4 control-label">代码集文件(只能是txt文件)：</label>
+                    <div class="col-sm-8">
+                        <input type="file" class="form-control initPop" style="width: 300px;" name="file" id="file">
+                    </div>
+                </div>
+                <br><br><br>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <button type="button" class="btn btn-default" id="submit-import">上传</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- 弹窗end -->
 <div id="zhezhao" style="background-color:#7B7B7B;position:fixed;left:0;top:0;width:100%;height:100%;z-index:99999;display:none;opacity:0.50" ></div>
 </body>
@@ -209,6 +239,9 @@
                     alert ("系统嗝屁了,请稍后再试");
                 }
             });
+        })
+        $("#submit-import").click(function(){
+            $("#import-form").submit();
         })
         $("#all-checkbox").bind("click",function(){
             if ($(this).is(':checked')){
