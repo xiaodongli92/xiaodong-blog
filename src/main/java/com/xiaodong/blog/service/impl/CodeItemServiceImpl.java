@@ -14,9 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by xiaodong on 2016/2/2.
@@ -170,12 +168,12 @@ public class CodeItemServiceImpl implements CodeItemService {
     }
 
     @Override
-    public List<CodeItem> getCodeItem(String codeSets) {
+    public List<CodeItem> getCodeItem(Set<String> codeSets) {
         return codeItemDAO.getByCodeSets(codeSets);
     }
 
     @Override
-    public List<CodeSet> getCodeSet(String codeSets) {
+    public List<CodeSet> getCodeSet(Set<String> codeSets) {
         return codeSetDAO.getByCodeSets(codeSets);
     }
 }

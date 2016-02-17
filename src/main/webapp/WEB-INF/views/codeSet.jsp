@@ -177,12 +177,24 @@
             });
         };
         $("#export").click(function(){
+            var codeSets = "";
+            $(".my-checkbox").each(function(){
+                if ($(this).prop("checked")){
+                    codeSets += ($(this).parents("tr").children("td").eq(3).html()+",");
+                }
+            })
+            if (codeSets == ""){
+                alert("请选择导出的代码集");
+                return false;
+            }
+            codeSets = codeSets.substring(0,codeSets.length-1);
+            console.log(codeSets);
             $.ajax({
                 url: '${ctx}/bs/exportCodeItem.do',
                 type: 'post',
                 dataType: 'json',
                 data: {
-                    codeSets:""
+                    codeSets:codeSets
                 },
                 success: function(data) {
                     if (data.errorCode == 0) {

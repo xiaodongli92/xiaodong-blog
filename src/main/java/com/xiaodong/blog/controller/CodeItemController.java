@@ -5,6 +5,7 @@ import com.xiaodong.blog.model.CodeItem;
 import com.xiaodong.blog.model.CodeSet;
 import com.xiaodong.blog.service.ExportService;
 import com.xiaodong.blog.service.inter.CodeItemService;
+import com.xiaodong.blog.utils.CommonsUtils;
 import com.xiaodong.blog.utils.JsonResponseUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.Response;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by xiaodong on 2016/2/2.
@@ -202,12 +204,14 @@ public class CodeItemController extends AbstractController {
     public String exportCodeItem(@Param("codeSets")String codeSets,HttpServletRequest request){
         try {
             String fileName = "codeSet.txt";
-            List<CodeSet> codeSetList = codeItemService.getCodeSet(codeSets);
-            List<CodeItem> codeItemList = codeItemService.getCodeItem(codeSets);
+            Set<String> set = CommonsUtils.getSetFromString(codeSets);
+            List<CodeSet> codeSetList = codeItemService.getCodeSet(set);
+            List<CodeItem> codeItemList = codeItemService.getCodeItem(set);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("codeItemList",codeItemList);
             jsonObject.put("codeSetList",codeSetList);
             LOG.info("开始生成文件fileName={}",fileName);
+            LOG.info("内容={}",jsonObject.toJSONString());
             exportService.exportCodeItem(getDownloadFile(request,fileName),jsonObject.toJSONString());
             return JsonResponseUtils.ok("fileName",fileName);
         } catch (Exception e){

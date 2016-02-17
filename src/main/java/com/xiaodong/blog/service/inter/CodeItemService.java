@@ -6,6 +6,7 @@ import com.xiaodong.blog.model.CodeSet;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by xiaodong on 2016/2/2.
@@ -38,7 +39,7 @@ public interface CodeItemService {
 
     Map<String,String> codeItemMap(String codeSetValue);
 
-    List<CodeItem> getCodeItem(String codeSets);
+    List<CodeItem> getCodeItem(Set<String> codeSets);
 
-    List<CodeSet> getCodeSet(String codeSets);
+    List<CodeSet> getCodeSet(Set<String> codeSets);
 }

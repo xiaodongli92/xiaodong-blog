@@ -6,9 +6,7 @@ import com.xiaodong.blog.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by xiaodong on 2016/1/12.
@@ -48,5 +46,14 @@ public class CommonsUtils {
             map.put(areaCode.getCode(),areaCode.getName());
         }
         return map;
+    }
+
+    public static Set<String> getSetFromString(String paramStr){
+        Set<String> set = new HashSet<>();
+        String[] codeSetStr = paramStr.split(",");
+        for (String str:codeSetStr){
+            set.add(str);
+        }
+        return set;
     }
 }
