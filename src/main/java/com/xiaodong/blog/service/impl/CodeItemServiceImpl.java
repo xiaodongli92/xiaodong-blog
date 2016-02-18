@@ -212,6 +212,9 @@ public class CodeItemServiceImpl implements CodeItemService {
     }
 
     private static List<CodeSet> getCodeSetsFromJson(JSONArray codeSetJsonArray){
+        if (codeSetJsonArray == null || codeSetJsonArray.isEmpty()){
+            return Collections.EMPTY_LIST;
+        }
         List<CodeSet> codeSets = new ArrayList<>();
         for (int i=0;i<codeSetJsonArray.size();i++){
             JSONObject jsonObject = codeSetJsonArray.getJSONObject(i);
@@ -227,6 +230,9 @@ public class CodeItemServiceImpl implements CodeItemService {
     }
 
     private static List<CodeItem> getCodeItemsFromJson(JSONArray codeItemJsonArray){
+        if (codeItemJsonArray == null || codeItemJsonArray.isEmpty()){
+            return Collections.emptyList();
+        }
         List<CodeItem> codeItems = new ArrayList<>();
         for (int i=0;i<codeItemJsonArray.size();i++){
             JSONObject jsonObject = codeItemJsonArray.getJSONObject(i);
