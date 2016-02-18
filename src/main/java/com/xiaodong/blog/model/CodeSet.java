@@ -22,7 +22,7 @@ public class CodeSet {
     /**
      * 代码集值
      */
-    @Column(length = 30)
+    @Column(length = 30,unique = true)
     private String codeSetValue;
 
     /**
