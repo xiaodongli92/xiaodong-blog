@@ -37,9 +37,9 @@ public class Article {
     private String content;
 
     /**
-     * 状态 0 封闭 1 开放
+     * 状态 0 隐私 1 公开
      */
-    @Column
+    @Column(columnDefinition = "default 1")
     private int status;
 
     @Override

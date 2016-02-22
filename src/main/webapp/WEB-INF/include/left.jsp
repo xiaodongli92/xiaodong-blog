@@ -18,6 +18,10 @@ $(function(){
             <ul class="collapse-ul collapse-show">
                 <li ${lastUri=="codeSet.do"?'class="collapse-active"':''}><a href='${ctx}/bs/codeSet.do'>字典管理</a></li>
             </ul>
+            <h3 class="menu-title">文章</h3>
+            <ul class="collapse-ul collapse-show">
+                <li ${lastUri=="toPage.do"?'class="collapse-active"':''}><a href='${ctx}/article/toPage.do'>发表文章</a></li>
+            </ul>
         </div>
         <div class="btn-scroll-bar"></div>
     </div>
