@@ -1,6 +1,7 @@
 package com.xiaodong.blog.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xiaodong.blog.interceptor.AuthPermission;
 import com.xiaodong.blog.model.CodeItem;
 import com.xiaodong.blog.model.CodeSet;
 import com.xiaodong.blog.service.ExportService;
@@ -94,6 +95,7 @@ public class CodeItemController extends AbstractController {
         }
     }
 
+    @AuthPermission
     @RequestMapping("codeSet")
     public String codeSet(HttpServletRequest request){
         try {
@@ -107,6 +109,7 @@ public class CodeItemController extends AbstractController {
         }
     }
 
+    @AuthPermission
     @ResponseBody
     @RequestMapping("saveCodeSet")
     public String saveCodeSet(CodeSet codeSet){
@@ -122,6 +125,7 @@ public class CodeItemController extends AbstractController {
         }
     }
 
+    @AuthPermission
     @ResponseBody
     @RequestMapping("deleteCodeSet")
     public String deleteCodeSet(@Param("id") Long id){
@@ -137,6 +141,7 @@ public class CodeItemController extends AbstractController {
         }
     }
 
+    @AuthPermission
     @RequestMapping("codeItem")
     public String codeItem(@Param("id")Long id,HttpServletRequest request){
         try {
@@ -155,6 +160,7 @@ public class CodeItemController extends AbstractController {
         }
     }
 
+    @AuthPermission
     @ResponseBody
     @RequestMapping("saveCodeItem")
     public String saveCodeItem(CodeItem codeItem){
@@ -170,6 +176,7 @@ public class CodeItemController extends AbstractController {
         }
     }
 
+    @AuthPermission
     @ResponseBody
     @RequestMapping("deleteCodeItem")
     public String deleteCodeItem(@Param("id")Long id){
@@ -185,6 +192,7 @@ public class CodeItemController extends AbstractController {
         }
     }
 
+    @AuthPermission
     @ResponseBody
     @RequestMapping("codeItemMap")
     public String parentCodeMap(@Param("codeSetValue")String codeSetValue){
@@ -200,6 +208,7 @@ public class CodeItemController extends AbstractController {
         }
     }
 
+    @AuthPermission
     @ResponseBody
     @RequestMapping("exportCodeItem")
     public String exportCodeItem(@Param("codeSets")String codeSets,HttpServletRequest request){
@@ -221,6 +230,7 @@ public class CodeItemController extends AbstractController {
         }
     }
 
+    @AuthPermission
     @ResponseBody
     @RequestMapping("checkFile")
     public String checkFile(@Param("fileName")String fileName,HttpServletRequest request){
@@ -232,6 +242,7 @@ public class CodeItemController extends AbstractController {
         }
     }
 
+    @AuthPermission
     @ResponseBody
     @RequestMapping("download")
     public String download(@Param("fileName")String fileName, HttpServletRequest request, HttpServletResponse response){
@@ -248,6 +259,7 @@ public class CodeItemController extends AbstractController {
         return null;
     }
 
+    @AuthPermission
     @RequestMapping("importCodeItem")
     public String importCodeItem(MultipartFile file,HttpServletRequest request){
         try {

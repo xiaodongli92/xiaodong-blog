@@ -1,6 +1,7 @@
 package com.xiaodong.blog.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by xiaodong on 2016/2/18.
@@ -42,6 +43,12 @@ public class Article {
     @Column(columnDefinition = "default 1")
     private int status;
 
+    /**
+     * 创建时间
+     */
+    @Column
+    private Date createTime;
+
     @Override
     public String toString() {
         return "Article{" +
@@ -51,6 +58,7 @@ public class Article {
                 ", authorId=" + authorId +
                 ", content='" + content + '\'' +
                 ", status=" + status +
+                ", createTime=" + createTime +
                 '}';
     }
 
@@ -100,5 +108,13 @@ public class Article {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

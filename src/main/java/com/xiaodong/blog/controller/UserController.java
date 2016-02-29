@@ -1,5 +1,6 @@
 package com.xiaodong.blog.controller;
 
+import com.xiaodong.blog.interceptor.AuthPermission;
 import com.xiaodong.blog.model.User;
 import com.xiaodong.blog.model.UserInfo;
 import com.xiaodong.blog.service.inter.PassportService;
@@ -26,6 +27,7 @@ public class UserController {
     @Autowired
     private PassportService passportService;
 
+    @AuthPermission
     @RequestMapping("userInfo")
     public String userInfo(HttpServletRequest request){
         try {
@@ -42,6 +44,7 @@ public class UserController {
         }
     }
 
+    @AuthPermission
     @ResponseBody
     @RequestMapping("saveUserInfo")
     public String saveUserInfo(UserInfo userInfo,HttpServletRequest request) {
@@ -58,6 +61,7 @@ public class UserController {
         }
     }
 
+    @AuthPermission
     @ResponseBody
     @RequestMapping("saveUser")
     public String saveUser(User user,HttpServletRequest request){

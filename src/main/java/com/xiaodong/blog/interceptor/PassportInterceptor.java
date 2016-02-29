@@ -1,17 +1,15 @@
 package com.xiaodong.blog.interceptor;
 
-import com.xiaodong.blog.commons.AppConstants;
-import com.xiaodong.blog.model.User;
+import com.xiaodong.blog.utils.CommonsUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by xiaodong on 2015/11/30.
@@ -20,22 +18,23 @@ public class PassportInterceptor implements HandlerInterceptor {
 
 //    private static final Logger LOG = LoggerFactory.getLogger(PassportInterceptor.class);
 
-    private List<String> loginUrl = Arrays.asList(new String[]{"index.do","main.do","userInfo.do","saveUserInfo.do"});
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String requestUri = request.getRequestURI();
-        String uri = StringUtils.substringAfterLast(requestUri,"/");
-//        LOG.info("ip={},uri={}",request.getRemoteAddr(),uri);
-        if (this.loginUrl.contains(uri)){
-            Long userId = (Long) request.getSession().getAttribute(AppConstants.SESSION_USER_ID);
-            if (userId==null){
-                response.sendRedirect(request.getContextPath()+"/goSignIn.do");
-                return false;
+        request.setAttribute("lastUri",StringUtils.replace(request.getRequestURI(),"/blog/",""));
+        if (handler.getClass().isAssignableFrom(HandlerMethod.class)){
+            AuthPermission authPermission = ((HandlerMethod)handler).getMethodAnnotation(AuthPermission.class);
+            //当没有声明需要权限，或者声明不验证权限
+            if (authPermission == null || authPermission.validate() == false){
+                return true;
+            } else {
+                Long uid = CommonsUtils.getUserIdFromSession(request);
+                if (uid == null){
+                    response.sendRedirect(request.getContextPath()+"/goSignIn.do");
+                    return false;
+                }
             }
-//            LOG.info("userId={}",userId);
         }
-        request.setAttribute("lastUri",uri);
         return true;
     }
 
