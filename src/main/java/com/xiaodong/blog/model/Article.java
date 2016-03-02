@@ -34,7 +34,7 @@ public class Article {
     /**
      * 内容
      */
-    @Lob
+    @Column(length = 2000)
     private String content;
 
     /**

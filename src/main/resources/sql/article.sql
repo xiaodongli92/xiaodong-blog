@@ -1,9 +1,9 @@
 create table article(
-  id          int(64)       PRIMARY KEY auto_increment,
+  id          bigint(20)    PRIMARY KEY auto_increment,
   title       varchar(200)  DEFAULT null,
-  typeCode    varchar(6)    DEFAULT NULL,
-  authorId    int(64)       DEFAULT null,
-  content     varchar(2000) DEFAULT NULL,
+  type_code    varchar(6)    DEFAULT NULL,
+  author_id    bigint(20)       DEFAULT null,
+  content     varchar(2000)      DEFAULT NULL,
   status      int(4)        DEFAULT 1,
-  createTime  datetime      DEFAULT null
+  create_time  datetime      DEFAULT null
 )charset utf8;
