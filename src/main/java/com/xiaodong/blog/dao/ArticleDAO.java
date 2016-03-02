@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface ArticleDAO extends CrudRepository<Article,Long> {
 
-    @Query(value = "SELECT * FROM article order by create",nativeQuery = true)
+    @Query(value = "SELECT * FROM article order by create_time desc",nativeQuery = true)
     List<Article> allArticle();
 }

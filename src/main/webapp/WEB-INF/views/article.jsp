@@ -21,31 +21,39 @@
         <div class="panel panel-default">
             <div class="panel-heading" style="overflow:auto;">
                 <h4 style="float:left">发布文章</h4>
+                <button type="button" id="my-article" class="btn btn-default" style="float: right">
+                    我的文章
+                </button>
             </div>
         </div>
         <table class="table table-hover alignCenter" style="width: 80%;margin-left: 10%;font-size: 20px;">
+            <input type="hidden" value="${article.id}" id="articleId">
             <tr>
                 <th>标题</th>
-                <td><input type="text" class="form-control" style="width: 300px;" id="title"></td>
+                <td>
+                    <input type="text" class="form-control" style="width: 300px;" id="title" value="${article.title}">
+                </td>
             </tr>
             <tr>
                 <th>类别</th>
                 <td>
-                    <select class="form-control" style="width: 300px;" id="type">
+                    <select class="form-control" style="width: 300px;" id="type" data-value="${article.typeCode}">
                         <option value="">请选择</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <th>内容</th>
-                <td><textarea type="text" class="form-control" style="width: 600px;height: 600px;" id="content"></textarea></td>
+                <td>
+                    <textarea type="text" class="form-control" style="width: 600px;height: 600px;" id="content">${article.content}</textarea>
+                </td>
             </tr>
             <tr>
                 <th>显示</th>
                 <td>
                     <select class="form-control" style="width: 200px;" id="status">
-                        <option value="1">公开</option>
-                        <option value="0">隐私</option>
+                        <option value="1" ${article.status==1?"selected":""}>公开</option>
+                        <option value="0" ${article.status==0?"selected":""}>隐私</option>
                     </select>
                 </td>
             </tr>
@@ -63,6 +71,7 @@
 $(function(){
     initSelect("articleType","type");
     $("#save").click(function(){
+        var id = $("#articleId").val();
         var title = $("#title").val();
         var typeCode = $("#type").val();
         var content = $("#content").val();
@@ -87,6 +96,7 @@ $(function(){
             type: 'post',
             dataType: 'json',
             data: {
+                id: id,
                 title: title,
                 typeCode: typeCode,
                 content: content,
@@ -96,10 +106,13 @@ $(function(){
                 if (data.errorCode==1){
                     alert(data.errorMessage);
                 } else {
-                    location.reload();
+                    location.href='${ctx}/article/list.do';
                 }
             }
         })
+    })
+    $("#my-article").click(function(){
+        location.href='${ctx}/article/list.do';
     })
 })
 
@@ -119,6 +132,8 @@ function initSelect(codeSetValue,selectId){
                 $.each(articleTypeMap,function(key,value){
                     $("#"+selectId).append("<option value="+key+">"+value+"</option>");
                 })
+                var typeCodeValue = $("#type").attr("data-value");
+                $("#type").val(typeCodeValue);
             }
         }
     })

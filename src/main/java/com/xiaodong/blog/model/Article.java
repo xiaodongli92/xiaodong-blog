@@ -32,6 +32,13 @@ public class Article {
     private long authorId;
 
     /**
+     * 作者名字
+     */
+
+    @Column(length = 50)
+    private String authorName;
+
+    /**
      * 内容
      */
     @Column(length = 2000)
@@ -49,6 +56,12 @@ public class Article {
     @Column
     private Date createTime;
 
+    /**
+     * 最后更新时间
+     */
+    @Column
+    private Date updateTime;
+
     @Override
     public String toString() {
         return "Article{" +
@@ -56,9 +69,11 @@ public class Article {
                 ", title='" + title + '\'' +
                 ", typeCode='" + typeCode + '\'' +
                 ", authorId=" + authorId +
+                ", authorName='" + authorName + '\'' +
                 ", content='" + content + '\'' +
                 ", status=" + status +
                 ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 
@@ -94,6 +109,14 @@ public class Article {
         this.authorId = authorId;
     }
 
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
     public String getContent() {
         return content;
     }
@@ -116,5 +139,13 @@ public class Article {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

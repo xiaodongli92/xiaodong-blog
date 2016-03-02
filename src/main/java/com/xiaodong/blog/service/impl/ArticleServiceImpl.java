@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by xiaodong on 2016/2/29.
@@ -23,8 +24,24 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void save(Article article) {
-        article.setCreateTime(new Date());
+        if (article.getId() == 0){
+            article.setCreateTime(new Date());
+        } else {
+            Article oldArticle = articleDAO.findOne(article.getId());
+            article.setCreateTime(oldArticle.getCreateTime());
+        }
+        article.setUpdateTime(new Date());
         LOG.info("参数{}",article);
         articleDAO.save(article);
+    }
+
+    @Override
+    public List<Article> pageList() {
+        return articleDAO.allArticle();
+    }
+
+    @Override
+    public Article get(Long id) {
+        return articleDAO.findOne(id);
     }
 }

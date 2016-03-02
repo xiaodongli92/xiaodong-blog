@@ -40,6 +40,10 @@ public class CommonsUtils {
         return (Long) request.getSession().getAttribute(AppConstants.SESSION_USER_ID);
     }
 
+    public static String getUserNameFromSession(HttpServletRequest request){
+        return (String) request.getSession().getAttribute(AppConstants.SESSION_USER_NAME);
+    }
+
     public static Map<String,String> getMapFromAreaList(List<AreaCode> areaCodes){
         Map<String,String> map = new HashMap<String, String>();
         for (AreaCode areaCode:areaCodes){
