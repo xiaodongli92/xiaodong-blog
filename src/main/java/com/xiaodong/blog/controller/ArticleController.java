@@ -5,6 +5,7 @@ import com.xiaodong.blog.model.Article;
 import com.xiaodong.blog.service.inter.ArticleService;
 import com.xiaodong.blog.utils.CommonsUtils;
 import com.xiaodong.blog.utils.JsonResponseUtils;
+import com.xiaodong.blog.utils.ValidateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +43,12 @@ public class ArticleController {
     @ResponseBody
     @RequestMapping("saveArticle")
     public String saveArticle(Article article, HttpServletRequest request){
-        if (article == null){
-            return JsonResponseUtils.badResult("请填写信息");
-        }
         try {
+            String errMsg = ValidateUtils.articleValidate(article);
+            LOG.info("参数{}",article);
+            if (errMsg != null){
+                return JsonResponseUtils.badResult(errMsg);
+            }
             article.setAuthorId(CommonsUtils.getUserIdFromSession(request));
             article.setAuthorName(CommonsUtils.getUserNameFromSession(request));
             articleService.save(article);

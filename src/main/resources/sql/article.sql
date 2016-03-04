@@ -6,5 +6,6 @@ create table article(
   author_name varchar(50)    DEFAULT NULL,
   content     varchar(2000)      DEFAULT NULL,
   status      int(4)        DEFAULT 1,
-  create_time  datetime      DEFAULT null
+  create_time  datetime      DEFAULT null,
+  update_time  datetime      DEFAULT NULL
 )charset utf8;

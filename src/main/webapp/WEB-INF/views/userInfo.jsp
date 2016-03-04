@@ -164,6 +164,9 @@
         $("#bloodType").val(bloodType);
     }
     function initCountySelect(cityCode,countyCode){
+        if (cityCode==''){
+            return false;
+        }
         $("#countyCode").html("<option value=''>区县</option>");
         $.ajax({
             url: '${ctx}/bs/getCountyMap.do',
@@ -187,6 +190,9 @@
         })
     }
     function initCitySelect(provinceCode,cityCode){
+        if (provinceCode == ''){
+            return false;
+        }
         $("#cityCode").html("<option value=''>城市</option>");
         $.ajax({
             url: '${ctx}/bs/getCityMap.do',

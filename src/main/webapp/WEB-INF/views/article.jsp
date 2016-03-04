@@ -91,6 +91,9 @@ $(function(){
             $("#content").focus();
             return false;
         }
+        if (id == '') {
+            id = 0;
+        }
         $.ajax({
             url: '${ctx}/article/saveArticle.do',
             type: 'post',
