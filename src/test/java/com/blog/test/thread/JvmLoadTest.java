@@ -31,7 +31,7 @@ class SubClass extends SuperClass
         System.out.println("SubClass init");
     }
 
-    static int value=2;
+    static int a=0;
 
     public SubClass()
     {
