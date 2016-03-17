@@ -17,16 +17,20 @@ public class StaticTest2 {
     }
 
     public static void main(String[] args) {
-        new ExB();
+        ExB b = new ExB();
+        System.out.println(b.i);
     }
 }
 
 class ExB extends StaticTest2 {
+    static int i = 1;
     static {
         System.out.println("子类--静态代码块");
+        System.out.println(i);
     }
     {
         System.out.println("子类--非静态代码块");
+        System.out.println(i);
     }
 
     public ExB() {
