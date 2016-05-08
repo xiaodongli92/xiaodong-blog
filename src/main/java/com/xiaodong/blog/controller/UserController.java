@@ -75,4 +75,28 @@ public class UserController {
             return JsonResponseUtils.badResult(e.getMessage());
         }
     }
+
+    @AuthPermission
+    @RequestMapping("goUpdatePassword")
+    public String goUpdatePassword(){
+        return "updatePassword";
+    }
+
+    @AuthPermission
+    @ResponseBody
+    @RequestMapping("updatePassword")
+    public String updatePassword(HttpServletRequest request,String oldPassword,String newPassword){
+        try {
+            LOG.info("oldPassword = {},newPassword = {}",oldPassword,newPassword);
+            Long userId = CommonsUtils.getUserIdFromSession(request);
+            String msg = passportService.updatePassword(oldPassword,newPassword,userId);
+            if (msg != null){
+                return JsonResponseUtils.badResult(msg);
+            }
+            return JsonResponseUtils.ok();
+        } catch (Exception e){
+            LOG.error("修改密码失败,",e);
+            return JsonResponseUtils.badResult(e.getMessage());
+        }
+    }
 }

@@ -57,4 +57,12 @@ public interface PassportService {
      * @return
      */
     String updateUserInfo(UserInfo userInfo);
+
+    /**
+     * 修改密码
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    String updatePassword(String oldPassword,String newPassword,Long userId);
 }

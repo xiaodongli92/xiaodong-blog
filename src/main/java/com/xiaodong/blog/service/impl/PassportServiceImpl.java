@@ -90,7 +90,18 @@ public class PassportServiceImpl implements PassportService {
         return null;
     }
 
-    private static UserInfo initUpdateUserInfo(UserInfo oldUserInfo,UserInfo userInfo){
+    @Override
+    public String updatePassword(String oldPassword, String newPassword, Long userId) {
+        User user = passportDAO.getUserById(userId);
+        if (!oldPassword.equals(user.getPassword())){
+            return "旧密码错误";
+        }
+        user.setPassword(newPassword);
+        passportDAO.save(user);
+        return null;
+    }
+
+    private static UserInfo initUpdateUserInfo(UserInfo oldUserInfo, UserInfo userInfo){
         if (oldUserInfo == null){//第一次保存个人信息
             oldUserInfo = new UserInfo();
             oldUserInfo.setUserId(userInfo.getUserId());

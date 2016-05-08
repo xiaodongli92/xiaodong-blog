@@ -15,6 +15,9 @@ $(function(){
                 <li ${lastUri=="user/userInfo.do"?'class="collapse-active"':''}>
                     <a href='${ctx}/user/userInfo.do'>个人资料</a>
                 </li>
+                <li ${lastUri=="user/goUpdatePassword.do"?'class="collapse-active"':''}>
+                    <a href='${ctx}/user/goUpdatePassword.do'>修改密码</a>
+                </li>
             </ul>
             <h3 class="menu-title">系统设置</h3>
             <ul class="collapse-ul collapse-show">
