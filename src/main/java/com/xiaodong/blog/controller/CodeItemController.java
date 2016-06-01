@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -130,7 +129,7 @@ public class CodeItemController extends AbstractController {
     @RequestMapping("deleteCodeSet")
     public String deleteCodeSet(@Param("id") Long id){
         try {
-            if (id==null || id.longValue()<1){
+            if (id==null || id<1){
                 return JsonResponseUtils.badResult("id无效");
             }
             codeItemService.deleteCodeSet(id);
