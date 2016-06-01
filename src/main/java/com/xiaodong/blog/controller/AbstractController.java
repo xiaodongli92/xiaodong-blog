@@ -10,12 +10,12 @@ import java.io.File;
 /**
  * Created by xiaodong on 2016/2/16.
  */
-public class AbstractController {
+abstract class AbstractController {
 
     @Autowired
     private ExportService exportService;
 
-    protected File getDownloadFile(HttpServletRequest request, String fileName) {
+    File getDownloadFile(HttpServletRequest request, String fileName) {
         String path = request.getSession().getServletContext().getRealPath("download");
         File fileDir = new File(path);
         if (!fileDir.exists()){
@@ -28,7 +28,7 @@ public class AbstractController {
         return file;
     }
 
-    protected String checkFile(File file){
+    String checkFile(File file){
         if (exportService.isDone(file) && file.exists()) {
             return JsonResponseUtils.ok();
         }
