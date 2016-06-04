@@ -20,7 +20,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading" style="overflow:auto;">
-                <h4 style="float:left">文章列表</h4>
+                <h4 style="float:left">我的文章</h4>
                 <button type="button" id="publish" class="btn btn-default" style="float: right">
                     发表文章
                 </button>
@@ -65,7 +65,7 @@ $(function(){
     })
     $(".detail").click(function(){
         var id = $(this).parents("td").prev().html();
-        location.href='${ctx}/article/toPage.do?id='+id;
+        location.href='${ctx}/article/detail.do?id='+id;
     })
 })
 function initPage(){
