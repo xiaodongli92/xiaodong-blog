@@ -61,7 +61,8 @@ public class ArticleController {
     @RequestMapping("list")
     public String list(HttpServletRequest request){
         try {
-            List<Article> list = articleService.pageList();
+            Long authorId = CommonsUtils.getUserIdFromSession(request);
+            List<Article> list = articleService.pageList(authorId);
             request.setAttribute("list",list);
             return "articleList";
         } catch (Exception e){
@@ -79,5 +80,14 @@ public class ArticleController {
         }
         request.setAttribute("article",articleService.get(id));
         return "articleDetail";
+    }
+
+    @AuthPermission
+    @RequestMapping("edit")
+    public String edit(@Param("articleId")Long id,HttpServletRequest request){
+        if (null != id) {
+            request.setAttribute("article",articleService.get(id));
+        }
+        return "articleEdit";
     }
 }

@@ -67,6 +67,9 @@ $(function(){
         var id = $(this).parents("td").prev().html();
         location.href='${ctx}/article/detail.do?id='+id;
     })
+    $(".my-tr").each(function(i,o){
+        $(this).children("td").eq(0).html(i+1);
+    })
 })
 function initPage(){
     $(".my-tr").each(function(){

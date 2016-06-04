@@ -31,13 +31,12 @@ public class ArticleServiceImpl implements ArticleService {
             article.setCreateTime(oldArticle.getCreateTime());
         }
         article.setUpdateTime(new Date());
-        LOG.info("参数{}",article);
         articleDAO.save(article);
     }
 
     @Override
-    public List<Article> pageList() {
-        return articleDAO.allArticle();
+    public List<Article> pageList(Long authorId) {
+        return articleDAO.myArticle(authorId);
     }
 
     @Override

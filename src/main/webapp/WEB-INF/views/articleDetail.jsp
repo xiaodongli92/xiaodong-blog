@@ -54,7 +54,7 @@
 $(function(){
     $("#edit").click(function(){
         var id = $("#articleId").val();
-        location.href='${ctx}/article/toPage.do?id='+id;
+        location.href='${ctx}/article/edit.do?id='+id;
     })
 })
 </script>
