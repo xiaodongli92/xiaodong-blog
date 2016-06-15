@@ -11,7 +11,7 @@ public interface ArticleService {
 
     void save(Article article);
 
-    List<Article> pageList();
+    List<Article> pageList(Long authorId);
 
     Article get(Long id);
 }

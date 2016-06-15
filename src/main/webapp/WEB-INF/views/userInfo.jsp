@@ -66,7 +66,7 @@
                         <select id="provinceCode" class="form-control" style="width: 150px;float: left" model-value="${userInfo.provinceCode}">
                             <option value="">省份</option>
                         </select>
-                        <select id="cityCode" class="form-control" style="width: 150px;float: left;height: 100%;" model-value="${userInfo.cityCode}">
+                        <select id="cityCode" class="form-control" style="width: 150px;float: left;" model-value="${userInfo.cityCode}">
                             <option value="">城市</option>
                         </select>
                         <select id="countyCode" class="form-control" style="width: 150px;float: left" model-value="${userInfo.countyCode}">

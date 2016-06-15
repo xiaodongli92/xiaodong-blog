@@ -31,10 +31,9 @@ public class ArticleController {
 
     @AuthPermission
     @RequestMapping("toPage")
-    public String toPage(@Param("id") Long id,HttpServletRequest request){
-        if (id != null){
-            Article article = articleService.get(id);
-            request.setAttribute("article",article);
+    public String toPage(@Param("articleId")Long id,HttpServletRequest request){
+        if (null != id) {
+            request.setAttribute("article",articleService.get(id));
         }
         return "article";
     }
@@ -45,7 +44,6 @@ public class ArticleController {
     public String saveArticle(Article article, HttpServletRequest request){
         try {
             String errMsg = ValidateUtils.articleValidate(article);
-            LOG.info("参数{}",article);
             if (errMsg != null){
                 return JsonResponseUtils.badResult(errMsg);
             }
@@ -63,12 +61,33 @@ public class ArticleController {
     @RequestMapping("list")
     public String list(HttpServletRequest request){
         try {
-            List<Article> list = articleService.pageList();
+            Long authorId = CommonsUtils.getUserIdFromSession(request);
+            List<Article> list = articleService.pageList(authorId);
             request.setAttribute("list",list);
             return "articleList";
         } catch (Exception e){
             LOG.error("获取文章列表失败，",e);
             return JsonResponseUtils.badResult(e.getMessage());
         }
+    }
+
+    @AuthPermission
+    @RequestMapping("detail")
+    public String detail(@Param("articleId")Long id,HttpServletRequest request) {
+        if (null == id) {
+            request.setAttribute("errMsg","没有找到次文章！");
+            return "error";
+        }
+        request.setAttribute("article",articleService.get(id));
+        return "articleDetail";
+    }
+
+    @AuthPermission
+    @RequestMapping("edit")
+    public String edit(@Param("articleId")Long id,HttpServletRequest request){
+        if (null != id) {
+            request.setAttribute("article",articleService.get(id));
+        }
+        return "articleEdit";
     }
 }

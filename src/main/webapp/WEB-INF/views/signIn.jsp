@@ -22,7 +22,7 @@
         <div class="form-group">
             <label for="email" class="col-xs-4 control-label">邮箱：</label>
             <div class="col-xs-8">
-                <input type="text" class="form-control" id="email" placeholder="邮箱">
+                <input type="text" class="form-control" id="email" name="email" placeholder="邮箱">
             </div>
         </div>
         <div class="form-group">
